@@ -28,7 +28,6 @@ import (
 	"strings"
 	"sync"
 	"time"
-
 	"github.com/skip2/go-qrcode"
 	"golang.org/x/oauth2"
 )
@@ -196,7 +195,7 @@ func (idp *WeChatIdProvider) GetUserInfo(token *oauth2.Token) (*UserInfo, error)
 		userInfo := UserInfo{
 			Id:          mapValue.WechatUnionId,
 			Username:    "wx_user_" + mapValue.WechatUnionId,
-			DisplayName: "wx_user_" + mapValue.WechatUnionId+accessToken,
+			DisplayName: "wx_user_" + mapValue.WechatUnionId,
 			AvatarUrl:   "",
 		}
 		return &userInfo, nil
