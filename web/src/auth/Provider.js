@@ -419,7 +419,7 @@ export function getAuthUrl(application, provider, method, code) {
       return `${authInfo[provider.type].mpEndpoint}?appid=${provider.clientId2}&redirect_uri=${redirectUri}&state=${state}&scope=${authInfo[provider.type].mpScope}&response_type=code#wechat_redirect`;
     } else {
       if (provider.clientId2 && provider?.disableSsl && provider?.signName === "media") {
-        return `${window.location.origin}/callback?state=${state}&code=${ "wechat_oa:" + code}`;
+        return `${window.location.origin}/callback?state=${state}&code=${ "inroad_oa:" + code}`;
       }
       return `${endpoint}?appid=${provider.clientId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=code&state=${state}#wechat_redirect`;
     }
