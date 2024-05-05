@@ -28,6 +28,7 @@ import (
 	"strings"
 	"sync"
 	"time"
+
 	"github.com/skip2/go-qrcode"
 	"golang.org/x/oauth2"
 )
