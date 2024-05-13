@@ -91,9 +91,9 @@ export function getAlgorithmNames(themeData) {
 
 export function getLogo(themes) {
   if (themes.includes("dark")) {
-    return `${StaticBaseUrl}/img/casdoor-logo_1185x256_dark.png`;
+    return `https://casdoor-1251252938.cos.ap-shanghai.myqcloud.com/resource/built-in/admin/logo1.png`;
   } else {
-    return `${StaticBaseUrl}/img/casdoor-logo_1185x256.png`;
+    return `https://casdoor-1251252938.cos.ap-shanghai.myqcloud.com/resource/built-in/admin/logo1.png`;
   }
 }
 
