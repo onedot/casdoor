@@ -1467,7 +1467,7 @@ export function getUserCommonFields() {
 }
 
 export function getDefaultFooterContent() {
-  return "Powered by <a target=\"_blank\" href=\"#" rel=\"noreferrer\">UID Center</a>";
+  return `Powered by UID Center`;
 }
 
 export function getEmptyFooterContent() {
