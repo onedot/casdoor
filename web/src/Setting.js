@@ -91,9 +91,9 @@ export function getAlgorithmNames(themeData) {
 
 export function getLogo(themes) {
   if (themes.includes("dark")) {
-    return `https://casdoor-1251252938.cos.ap-shanghai.myqcloud.com/resource/built-in/admin/logo1.png`;
+    return "https://casdoor-1251252938.cos.ap-shanghai.myqcloud.com/resource/built-in/admin/logo1.png";
   } else {
-    return `https://casdoor-1251252938.cos.ap-shanghai.myqcloud.com/resource/built-in/admin/logo1.png`;
+    return "https://casdoor-1251252938.cos.ap-shanghai.myqcloud.com/resource/built-in/admin/logo1.png";
   }
 }
 
@@ -1467,7 +1467,7 @@ export function getUserCommonFields() {
 }
 
 export function getDefaultFooterContent() {
-  return `Powered by UID Center`;
+  return "Powered by UID Center";
 }
 
 export function getEmptyFooterContent() {
