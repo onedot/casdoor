@@ -1,7 +1,8 @@
 name: ReleaseAndPush
 
 on:
-  [release]
+  release:
+  types: [published]
 
 jobs:
 
