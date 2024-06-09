@@ -166,7 +166,7 @@
     "Next Step": "Sonraki adım",
     "Please input your username!": "Lütfen kullanıcı adınızı girin",
     "Reset": "Sıfırla",
-    "Retrieve password": "Şifre kurtar",
+    "Reset password": "Şifre kurtar",
     "Unknown forget type": "Unknown forget type",
     "Verify": "Doğrula"
   },
@@ -778,6 +778,8 @@
     "From address - Tooltip": "Email address of \"From\"",
     "From name": "From name",
     "From name - Tooltip": "Name of \"From\"",
+    "Get phone number": "Get phone number",
+    "Get phone number - Tooltip": "If sync phone number is enabled, you should enable google people api first and add scope https://www.googleapis.com/auth/user.phonenumbers.read",
     "Host": "Host",
     "Host - Tooltip": "Name of host",
     "IdP": "IdP",
@@ -897,7 +899,8 @@
   "record": {
     "Is triggered": "Is triggered",
     "Object": "Object",
-    "Response": "Response"
+    "Response": "Response",
+    "Status code": "Status code"
   },
   "resource": {
     "Copy Link": "Copy Link",
@@ -953,6 +956,7 @@
     "Text 3": "Text 3",
     "Text 4": "Text 4",
     "Text 5": "Text 5",
+    "The input Email doesn't match the signup item regex!": "The input Email doesn't match the signup item regex!",
     "The input is not invoice Tax ID!": "The input is not invoice Tax ID!",
     "The input is not invoice title!": "The input is not invoice title!",
     "The input is not valid Email!": "The input is not valid Email!",
@@ -1073,6 +1077,7 @@
     "3rd-party logins - Tooltip": "Social logins linked by the user",
     "Address": "Address",
     "Address - Tooltip": "Residential address",
+    "Address line": "Address line",
     "Affiliation": "Affiliation",
     "Affiliation - Tooltip": "Employer, such as company name or organization name",
     "Bio": "Bio",
@@ -1125,6 +1130,8 @@
     "Managed accounts": "Managed accounts",
     "Modify password...": "Modify password...",
     "Multi-factor authentication": "Multi-factor authentication",
+    "Need update password": "Need update password",
+    "Need update password - Tooltip": "Force user update password after login",
     "New Email": "New Email",
     "New Password": "New Password",
     "New User": "New User",
@@ -1171,6 +1178,7 @@
     "input password": "şifreyi girin"
   },
   "verification": {
+    "Is used": "Is used",
     "Receiver": "Receiver"
   },
   "webhook": {

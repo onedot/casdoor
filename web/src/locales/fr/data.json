@@ -166,7 +166,7 @@
     "Next Step": "Étape suivante",
     "Please input your username!": "Veuillez saisir votre identifiant !",
     "Reset": "Réinitialiser",
-    "Retrieve password": "Récupérer le mot de passe",
+    "Reset password": "Récupérer le mot de passe",
     "Unknown forget type": "Type d'oubli inconnu",
     "Verify": "Vérifier"
   },
@@ -778,6 +778,8 @@
     "From address - Tooltip": "L'adresse e-mail affichée comme expéditeur dans les e-mails envoyés",
     "From name": "Nom de l'expéditeur",
     "From name - Tooltip": "Le nom affiché comme expéditeur dans les e-mails envoyés",
+    "Get phone number": "Get phone number",
+    "Get phone number - Tooltip": "If sync phone number is enabled, you should enable google people api first and add scope https://www.googleapis.com/auth/user.phonenumbers.read",
     "Host": "Hôte",
     "Host - Tooltip": "Nom d'hôte",
     "IdP": "IdP (Identité Fournisseur)",
@@ -897,7 +899,8 @@
   "record": {
     "Is triggered": "Is triggered",
     "Object": "Object",
-    "Response": "Response"
+    "Response": "Response",
+    "Status code": "Status code"
   },
   "resource": {
     "Copy Link": "Copier le lien",
@@ -953,6 +956,7 @@
     "Text 3": "Text 3",
     "Text 4": "Text 4",
     "Text 5": "Text 5",
+    "The input Email doesn't match the signup item regex!": "The input Email doesn't match the signup item regex!",
     "The input is not invoice Tax ID!": "L'entrée n'est pas l'identifiant fiscal de la facture !",
     "The input is not invoice title!": "L'entrée n'est pas un nom ou une dénomination sociale !",
     "The input is not valid Email!": "L'entrée n'est pas une adresse e-mail valide !",
@@ -1073,6 +1077,7 @@
     "3rd-party logins - Tooltip": "Service de connexions tiers liés au compte",
     "Address": "Adresse",
     "Address - Tooltip": "Adresse résidentielle",
+    "Address line": "Address line",
     "Affiliation": "Affiliation",
     "Affiliation - Tooltip": "Employeur, tel que le nom de l'entreprise ou de l'organisation",
     "Bio": "Bio",
@@ -1125,6 +1130,8 @@
     "Managed accounts": "Comptes gérés",
     "Modify password...": "Modifier le mot de passe...",
     "Multi-factor authentication": "Authentification multifacteur",
+    "Need update password": "Need update password",
+    "Need update password - Tooltip": "Force user update password after login",
     "New Email": "Nouvelle adresse e-mail",
     "New Password": "Nouveau mot de passe",
     "New User": "Nouveau compte",
@@ -1171,6 +1178,7 @@
     "input password": "saisir le mot de passe"
   },
   "verification": {
+    "Is used": "Is used",
     "Receiver": "Receiver"
   },
   "webhook": {

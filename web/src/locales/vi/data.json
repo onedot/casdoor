@@ -166,7 +166,7 @@
     "Next Step": "Bước tiếp theo",
     "Please input your username!": "Vui lòng nhập tên đăng nhập của bạn!",
     "Reset": "Đặt lại",
-    "Retrieve password": "Truy xuất mật khẩu",
+    "Reset password": "Truy xuất mật khẩu",
     "Unknown forget type": "Loại quên chưa biết",
     "Verify": "Xác thực"
   },
@@ -778,6 +778,8 @@
     "From address - Tooltip": "From address - Tooltip",
     "From name": "From name",
     "From name - Tooltip": "From name - Tooltip",
+    "Get phone number": "Get phone number",
+    "Get phone number - Tooltip": "If sync phone number is enabled, you should enable google people api first and add scope https://www.googleapis.com/auth/user.phonenumbers.read",
     "Host": "Chủ nhà",
     "Host - Tooltip": "Tên của người chủ chỗ ở",
     "IdP": "IdP",
@@ -897,7 +899,8 @@
   "record": {
     "Is triggered": "Is triggered",
     "Object": "Object",
-    "Response": "Response"
+    "Response": "Response",
+    "Status code": "Status code"
   },
   "resource": {
     "Copy Link": "Sao chép liên kết",
@@ -953,6 +956,7 @@
     "Text 3": "Text 3",
     "Text 4": "Text 4",
     "Text 5": "Text 5",
+    "The input Email doesn't match the signup item regex!": "The input Email doesn't match the signup item regex!",
     "The input is not invoice Tax ID!": "Đầu vào không phải là Mã số thuế của hóa đơn!",
     "The input is not invoice title!": "Đầu vào không phải là tiêu đề hóa đơn!",
     "The input is not valid Email!": "Đầu vào không phải là địa chỉ Email hợp lệ!",
@@ -1073,6 +1077,7 @@
     "3rd-party logins - Tooltip": "Đăng nhập xã hội liên kết bởi người dùng",
     "Address": "Địa chỉ",
     "Address - Tooltip": "Địa chỉ cư trú",
+    "Address line": "Address line",
     "Affiliation": "Liên kết",
     "Affiliation - Tooltip": "Nhà tuyển dụng, chẳng hạn như tên công ty hoặc tổ chức",
     "Bio": "bản vẻ đời sống",
@@ -1125,6 +1130,8 @@
     "Managed accounts": "Quản lý tài khoản",
     "Modify password...": "Sửa đổi mật khẩu...",
     "Multi-factor authentication": "Multi-factor authentication",
+    "Need update password": "Need update password",
+    "Need update password - Tooltip": "Force user update password after login",
     "New Email": "Email mới",
     "New Password": "Mật khẩu mới",
     "New User": "Người dùng mới",
@@ -1171,6 +1178,7 @@
     "input password": "Nhập mật khẩu"
   },
   "verification": {
+    "Is used": "Is used",
     "Receiver": "Receiver"
   },
   "webhook": {

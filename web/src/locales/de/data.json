@@ -166,7 +166,7 @@
     "Next Step": "Nächster Schritt",
     "Please input your username!": "Bitte gib deinen Benutzernamen ein!",
     "Reset": "Zurücksetzen",
-    "Retrieve password": "Passwort abrufen",
+    "Reset password": "Passwort abrufen",
     "Unknown forget type": "Unbekannter Vergesslichkeitstyp",
     "Verify": "überprüfen"
   },
@@ -778,6 +778,8 @@
     "From address - Tooltip": "From address - Tooltip",
     "From name": "From name",
     "From name - Tooltip": "From name - Tooltip",
+    "Get phone number": "Get phone number",
+    "Get phone number - Tooltip": "If sync phone number is enabled, you should enable google people api first and add scope https://www.googleapis.com/auth/user.phonenumbers.read",
     "Host": "Host",
     "Host - Tooltip": "Name des Hosts",
     "IdP": "IdP",
@@ -897,7 +899,8 @@
   "record": {
     "Is triggered": "Is triggered",
     "Object": "Object",
-    "Response": "Response"
+    "Response": "Response",
+    "Status code": "Status code"
   },
   "resource": {
     "Copy Link": "Kopiere den Link",
@@ -953,6 +956,7 @@
     "Text 3": "Text 3",
     "Text 4": "Text 4",
     "Text 5": "Text 5",
+    "The input Email doesn't match the signup item regex!": "The input Email doesn't match the signup item regex!",
     "The input is not invoice Tax ID!": "Die Eingabe ist keine Rechnungssteuer-ID!",
     "The input is not invoice title!": "Der Eingabewert ist nicht die Rechnungsbezeichnung!",
     "The input is not valid Email!": "Die Eingabe ist keine gültige E-Mail-Adresse!",
@@ -1073,6 +1077,7 @@
     "3rd-party logins - Tooltip": "Drittanbieter-Anmeldungen, die mit dem Benutzer verknüpft sind",
     "Address": "Adresse",
     "Address - Tooltip": "Wohnadresse",
+    "Address line": "Address line",
     "Affiliation": "Zugehörigkeit",
     "Affiliation - Tooltip": "Arbeitgeber, wie Firmenname oder Organisationsname",
     "Bio": "Bio",
@@ -1125,6 +1130,8 @@
     "Managed accounts": "Verwaltete Konten",
     "Modify password...": "Passwort ändern...",
     "Multi-factor authentication": "Multi-factor authentication",
+    "Need update password": "Need update password",
+    "Need update password - Tooltip": "Force user update password after login",
     "New Email": "Neue E-Mail",
     "New Password": "Neues Passwort",
     "New User": "Neuer Benutzer",
@@ -1171,6 +1178,7 @@
     "input password": "Eingabe des Passworts"
   },
   "verification": {
+    "Is used": "Is used",
     "Receiver": "Receiver"
   },
   "webhook": {

@@ -166,7 +166,7 @@
     "Next Step": "Следующий шаг",
     "Please input your username!": "Пожалуйста, введите своё имя пользователя!",
     "Reset": "Сбросить",
-    "Retrieve password": "Восстановить пароль",
+    "Reset password": "Восстановить пароль",
     "Unknown forget type": "Неизвестный забытый тип",
     "Verify": "Проверить"
   },
@@ -778,6 +778,8 @@
     "From address - Tooltip": "From address - Tooltip",
     "From name": "From name",
     "From name - Tooltip": "From name - Tooltip",
+    "Get phone number": "Get phone number",
+    "Get phone number - Tooltip": "If sync phone number is enabled, you should enable google people api first and add scope https://www.googleapis.com/auth/user.phonenumbers.read",
     "Host": "Хост",
     "Host - Tooltip": "Имя хоста",
     "IdP": "ИдП",
@@ -897,7 +899,8 @@
   "record": {
     "Is triggered": "Is triggered",
     "Object": "Object",
-    "Response": "Response"
+    "Response": "Response",
+    "Status code": "Status code"
   },
   "resource": {
     "Copy Link": "Копировать ссылку",
@@ -953,6 +956,7 @@
     "Text 3": "Text 3",
     "Text 4": "Text 4",
     "Text 5": "Text 5",
+    "The input Email doesn't match the signup item regex!": "The input Email doesn't match the signup item regex!",
     "The input is not invoice Tax ID!": "Входные данные не являются идентификатором налога по счету-фактуре!",
     "The input is not invoice title!": "Входные данные не являются названием счета-фактуры!",
     "The input is not valid Email!": "Ввод не является действительным адресом электронной почты!",
@@ -1073,6 +1077,7 @@
     "3rd-party logins - Tooltip": "Социальные логины, связанные пользователем",
     "Address": "Адрес",
     "Address - Tooltip": "Адрес проживания",
+    "Address line": "Address line",
     "Affiliation": "Принадлежность",
     "Affiliation - Tooltip": "Работодатель, такой как название компании или организации",
     "Bio": "Био",
@@ -1125,6 +1130,8 @@
     "Managed accounts": "Управляемые аккаунты",
     "Modify password...": "Изменить пароль...",
     "Multi-factor authentication": "Multi-factor authentication",
+    "Need update password": "Need update password",
+    "Need update password - Tooltip": "Force user update password after login",
     "New Email": "Новое электронное письмо",
     "New Password": "Новый пароль",
     "New User": "Новый пользователь",
@@ -1171,6 +1178,7 @@
     "input password": "введите пароль"
   },
   "verification": {
+    "Is used": "Is used",
     "Receiver": "Receiver"
   },
   "webhook": {

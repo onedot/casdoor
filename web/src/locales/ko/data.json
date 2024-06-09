@@ -166,7 +166,7 @@
     "Next Step": "다음 단계",
     "Please input your username!": "사용자 이름을 입력하세요!",
     "Reset": "리셋",
-    "Retrieve password": "비밀번호를 복구하세요",
+    "Reset password": "비밀번호를 복구하세요",
     "Unknown forget type": "미지의 잊혀진 유형",
     "Verify": "검증하다"
   },
@@ -778,6 +778,8 @@
     "From address - Tooltip": "From address - Tooltip",
     "From name": "From name",
     "From name - Tooltip": "From name - Tooltip",
+    "Get phone number": "Get phone number",
+    "Get phone number - Tooltip": "If sync phone number is enabled, you should enable google people api first and add scope https://www.googleapis.com/auth/user.phonenumbers.read",
     "Host": "호스트",
     "Host - Tooltip": "호스트의 이름",
     "IdP": "IdP",
@@ -897,7 +899,8 @@
   "record": {
     "Is triggered": "Is triggered",
     "Object": "Object",
-    "Response": "Response"
+    "Response": "Response",
+    "Status code": "Status code"
   },
   "resource": {
     "Copy Link": "링크 복사하기",
@@ -953,6 +956,7 @@
     "Text 3": "Text 3",
     "Text 4": "Text 4",
     "Text 5": "Text 5",
+    "The input Email doesn't match the signup item regex!": "The input Email doesn't match the signup item regex!",
     "The input is not invoice Tax ID!": "입력한 것은 송장 세금 ID가 아닙니다!",
     "The input is not invoice title!": "입력값은 송장 제목이 아닙니다!",
     "The input is not valid Email!": "입력 값은 유효한 이메일이 아닙니다!",
@@ -1073,6 +1077,7 @@
     "3rd-party logins - Tooltip": "사용자가 연결한 소셜 로그인",
     "Address": "주소",
     "Address - Tooltip": "주거지 주소",
+    "Address line": "Address line",
     "Affiliation": "소속",
     "Affiliation - Tooltip": "고용주, 회사명 또는 조직명",
     "Bio": "바이오",
@@ -1125,6 +1130,8 @@
     "Managed accounts": "관리 계정",
     "Modify password...": "비밀번호 수정하기...",
     "Multi-factor authentication": "Multi-factor authentication",
+    "Need update password": "Need update password",
+    "Need update password - Tooltip": "Force user update password after login",
     "New Email": "새 이메일",
     "New Password": "새로운 비밀번호",
     "New User": "새로운 사용자",
@@ -1171,6 +1178,7 @@
     "input password": "비밀번호를 입력해주세요"
   },
   "verification": {
+    "Is used": "Is used",
     "Receiver": "Receiver"
   },
   "webhook": {

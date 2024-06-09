@@ -166,7 +166,7 @@
     "Next Step": "Próxima Etapa",
     "Please input your username!": "Por favor, insira seu nome de usuário!",
     "Reset": "Redefinir",
-    "Retrieve password": "Recuperar senha",
+    "Reset password": "Recuperar senha",
     "Unknown forget type": "Tipo de recuperação desconhecido",
     "Verify": "Verificar"
   },
@@ -778,6 +778,8 @@
     "From address - Tooltip": "Endereço de e-mail do remetente",
     "From name": "Nome do remetente",
     "From name - Tooltip": "Nome do remetente",
+    "Get phone number": "Get phone number",
+    "Get phone number - Tooltip": "If sync phone number is enabled, you should enable google people api first and add scope https://www.googleapis.com/auth/user.phonenumbers.read",
     "Host": "Host",
     "Host - Tooltip": "Nome do host",
     "IdP": "IdP",
@@ -897,7 +899,8 @@
   "record": {
     "Is triggered": "Is triggered",
     "Object": "Object",
-    "Response": "Response"
+    "Response": "Response",
+    "Status code": "Status code"
   },
   "resource": {
     "Copy Link": "Copiar Link",
@@ -953,6 +956,7 @@
     "Text 3": "Text 3",
     "Text 4": "Text 4",
     "Text 5": "Text 5",
+    "The input Email doesn't match the signup item regex!": "The input Email doesn't match the signup item regex!",
     "The input is not invoice Tax ID!": "A entrada não é um ID fiscal de fatura válido!",
     "The input is not invoice title!": "A entrada não é um título de fatura válido!",
     "The input is not valid Email!": "A entrada não é um Email válido!",
@@ -1073,6 +1077,7 @@
     "3rd-party logins - Tooltip": "Logins sociais vinculados pelo usuário",
     "Address": "Endereço",
     "Address - Tooltip": "Endereço residencial",
+    "Address line": "Address line",
     "Affiliation": "Afiliação",
     "Affiliation - Tooltip": "Empregador, como nome da empresa ou organização",
     "Bio": "Biografia",
@@ -1125,6 +1130,8 @@
     "Managed accounts": "Contas gerenciadas",
     "Modify password...": "Modificar senha...",
     "Multi-factor authentication": "Autenticação de vários fatores",
+    "Need update password": "Need update password",
+    "Need update password - Tooltip": "Force user update password after login",
     "New Email": "Novo E-mail",
     "New Password": "Nova Senha",
     "New User": "Novo Usuário",
@@ -1171,6 +1178,7 @@
     "input password": "Digite a senha"
   },
   "verification": {
+    "Is used": "Is used",
     "Receiver": "Receiver"
   },
   "webhook": {

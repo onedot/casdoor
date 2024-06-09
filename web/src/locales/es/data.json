@@ -166,7 +166,7 @@
     "Next Step": "Siguiente paso",
     "Please input your username!": "¡Por favor, ingrese su nombre de usuario!",
     "Reset": "Restablecer",
-    "Retrieve password": "Recuperar contraseña",
+    "Reset password": "Reset password",
     "Unknown forget type": "Tipo de olvido desconocido",
     "Verify": "Verificar"
   },
@@ -778,6 +778,8 @@
     "From address - Tooltip": "From address - Tooltip",
     "From name": "From name",
     "From name - Tooltip": "From name - Tooltip",
+    "Get phone number": "Get phone number",
+    "Get phone number - Tooltip": "If sync phone number is enabled, you should enable google people api first and add scope https://www.googleapis.com/auth/user.phonenumbers.read",
     "Host": "Anfitrión",
     "Host - Tooltip": "Nombre del anfitrión",
     "IdP": "IdP = Proveedor de Identidad",
@@ -897,7 +899,8 @@
   "record": {
     "Is triggered": "Is triggered",
     "Object": "Object",
-    "Response": "Response"
+    "Response": "Response",
+    "Status code": "Status code"
   },
   "resource": {
     "Copy Link": "Copiar enlace",
@@ -953,6 +956,7 @@
     "Text 3": "Text 3",
     "Text 4": "Text 4",
     "Text 5": "Text 5",
+    "The input Email doesn't match the signup item regex!": "The input Email doesn't match the signup item regex!",
     "The input is not invoice Tax ID!": "¡La entrada no es el ID fiscal de la factura!",
     "The input is not invoice title!": "¡El entrada no es el título de la factura!",
     "The input is not valid Email!": "¡La entrada no es un correo electrónico válido!",
@@ -1073,6 +1077,7 @@
     "3rd-party logins - Tooltip": "Accesos sociales ligados por el usuario",
     "Address": "Dirección",
     "Address - Tooltip": "Dirección residencial",
+    "Address line": "Address line",
     "Affiliation": "Afiliación",
     "Affiliation - Tooltip": "Empleador, como el nombre de una empresa u organización",
     "Bio": "Bio - Biografía",
@@ -1125,6 +1130,8 @@
     "Managed accounts": "Cuentas gestionadas",
     "Modify password...": "Modificar contraseña...",
     "Multi-factor authentication": "Multi-factor authentication",
+    "Need update password": "Need update password",
+    "Need update password - Tooltip": "Force user update password after login",
     "New Email": "Nuevo correo electrónico",
     "New Password": "Nueva contraseña",
     "New User": "Nuevo Usuario",
@@ -1171,6 +1178,7 @@
     "input password": "Ingresar contraseña"
   },
   "verification": {
+    "Is used": "Is used",
     "Receiver": "Receiver"
   },
   "webhook": {

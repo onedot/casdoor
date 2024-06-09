@@ -203,7 +203,8 @@ type User struct {
 	LastSigninWrongTime string `xorm:"varchar(100)" json:"lastSigninWrongTime"`
 	SigninWrongTimes    int    `json:"signinWrongTimes"`
 
-	ManagedAccounts []ManagedAccount `xorm:"managedAccounts blob" json:"managedAccounts"`
+	ManagedAccounts    []ManagedAccount `xorm:"managedAccounts blob" json:"managedAccounts"`
+	NeedUpdatePassword bool             `json:"needUpdatePassword"`
 }
 
 type Userinfo struct {
@@ -682,7 +683,7 @@ func UpdateUser(id string, user *User, columns []string, isAdmin bool) (bool, er
 			"eveonline", "fitbit", "gitea", "heroku", "influxcloud", "instagram", "intercom", "kakao", "lastfm", "mailru", "meetup",
 			"microsoftonline", "naver", "nextcloud", "onedrive", "oura", "patreon", "paypal", "salesforce", "shopify", "soundcloud",
 			"spotify", "strava", "stripe", "type", "tiktok", "tumblr", "twitch", "twitter", "typetalk", "uber", "vk", "wepay", "xero", "yahoo",
-			"yammer", "yandex", "zoom", "custom",
+			"yammer", "yandex", "zoom", "custom", "need_update_password",
 		}
 	}
 	if isAdmin {
@@ -877,6 +878,7 @@ func AddUsers(users []*User) (bool, error) {
 			}
 		}
 
+		user.Name = strings.TrimSpace(user.Name)
 		if isUsernameLowered {
 			user.Name = strings.ToLower(user.Name)
 		}
@@ -919,6 +921,15 @@ func AddUsersInBatch(users []*User) (bool, error) {
 	return affected, nil
 }
 
+func deleteUser(user *User) (bool, error) {
+	affected, err := ormer.Engine.ID(core.PK{user.Owner, user.Name}).Delete(&User{})
+	if err != nil {
+		return false, err
+	}
+
+	return affected != 0, nil
+}
+
 func DeleteUser(user *User) (bool, error) {
 	// Forced offline the user first
 	_, err := DeleteSession(util.GetSessionId(user.Owner, user.Name, CasdoorApplication))
@@ -926,12 +937,7 @@ func DeleteUser(user *User) (bool, error) {
 		return false, err
 	}
 
-	affected, err := ormer.Engine.ID(core.PK{user.Owner, user.Name}).Delete(&User{})
-	if err != nil {
-		return false, err
-	}
-
-	return affected != 0, nil
+	return deleteUser(user)
 }
 
 func GetUserInfo(user *User, scope string, aud string, host string) (*Userinfo, error) {

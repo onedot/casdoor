@@ -166,7 +166,7 @@
     "Next Step": "次のステップ",
     "Please input your username!": "ユーザー名を入力してください！",
     "Reset": "リセット",
-    "Retrieve password": "パスワードの取得",
+    "Reset password": "パスワードの取得",
     "Unknown forget type": "未知の忘却タイプ",
     "Verify": "検証"
   },
@@ -778,6 +778,8 @@
     "From address - Tooltip": "From address - Tooltip",
     "From name": "From name",
     "From name - Tooltip": "From name - Tooltip",
+    "Get phone number": "Get phone number",
+    "Get phone number - Tooltip": "If sync phone number is enabled, you should enable google people api first and add scope https://www.googleapis.com/auth/user.phonenumbers.read",
     "Host": "ホスト",
     "Host - Tooltip": "ホストの名前",
     "IdP": "IdP",
@@ -897,7 +899,8 @@
   "record": {
     "Is triggered": "Is triggered",
     "Object": "Object",
-    "Response": "Response"
+    "Response": "Response",
+    "Status code": "Status code"
   },
   "resource": {
     "Copy Link": "コピー リンク",
@@ -953,6 +956,7 @@
     "Text 3": "Text 3",
     "Text 4": "Text 4",
     "Text 5": "Text 5",
+    "The input Email doesn't match the signup item regex!": "The input Email doesn't match the signup item regex!",
     "The input is not invoice Tax ID!": "入力されたものは請求書の税番号ではありません！",
     "The input is not invoice title!": "インプットは請求書タイトルではありません！",
     "The input is not valid Email!": "入力されたものは有効なメールではありません",
@@ -1073,6 +1077,7 @@
     "3rd-party logins - Tooltip": "ユーザーによってリンクされたソーシャルログイン",
     "Address": "住所",
     "Address - Tooltip": "住所",
+    "Address line": "Address line",
     "Affiliation": "所属",
     "Affiliation - Tooltip": "企業名や団体名などの雇用主",
     "Bio": "バイオ技術",
@@ -1125,6 +1130,8 @@
     "Managed accounts": "管理アカウント",
     "Modify password...": "パスワードを変更する...",
     "Multi-factor authentication": "Multi-factor authentication",
+    "Need update password": "Need update password",
+    "Need update password - Tooltip": "Force user update password after login",
     "New Email": "新しいメール",
     "New Password": "新しいパスワード",
     "New User": "新しいユーザー",
@@ -1171,6 +1178,7 @@
     "input password": "パスワードを入力してください"
   },
   "verification": {
+    "Is used": "Is used",
     "Receiver": "Receiver"
   },
   "webhook": {

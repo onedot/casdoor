@@ -166,7 +166,7 @@
     "Next Step": "Langkah selanjutnya",
     "Please input your username!": "Silakan masukkan nama pengguna Anda!",
     "Reset": "Menyetel-ulang",
-    "Retrieve password": "Mengambil password",
+    "Reset password": "Mengambil password",
     "Unknown forget type": "Tipe yang tidak diketahui terlupakan",
     "Verify": "Memverifikasi"
   },
@@ -778,6 +778,8 @@
     "From address - Tooltip": "From address - Tooltip",
     "From name": "From name",
     "From name - Tooltip": "From name - Tooltip",
+    "Get phone number": "Get phone number",
+    "Get phone number - Tooltip": "If sync phone number is enabled, you should enable google people api first and add scope https://www.googleapis.com/auth/user.phonenumbers.read",
     "Host": "Tuan rumah",
     "Host - Tooltip": "Nama tuan rumah",
     "IdP": "IdP",
@@ -897,7 +899,8 @@
   "record": {
     "Is triggered": "Is triggered",
     "Object": "Object",
-    "Response": "Response"
+    "Response": "Response",
+    "Status code": "Status code"
   },
   "resource": {
     "Copy Link": "Salin Tautan",
@@ -953,6 +956,7 @@
     "Text 3": "Text 3",
     "Text 4": "Text 4",
     "Text 5": "Text 5",
+    "The input Email doesn't match the signup item regex!": "The input Email doesn't match the signup item regex!",
     "The input is not invoice Tax ID!": "Input ini bukan Tax ID faktur!",
     "The input is not invoice title!": "Masukan bukan judul faktur!",
     "The input is not valid Email!": "Input yang dimasukkan bukan sesuai dengan format Email yang valid!",
@@ -1073,6 +1077,7 @@
     "3rd-party logins - Tooltip": "Masuk sosial yang terhubung oleh pengguna",
     "Address": "Alamat",
     "Address - Tooltip": "Alamat tempat tinggal",
+    "Address line": "Address line",
     "Affiliation": "Afiliasi",
     "Affiliation - Tooltip": "Pemberi Kerja, seperti nama perusahaan atau nama organisasi",
     "Bio": "Bio: Biografi",
@@ -1125,6 +1130,8 @@
     "Managed accounts": "Akun yang dikelola",
     "Modify password...": "Mengubah kata sandi...",
     "Multi-factor authentication": "Multi-factor authentication",
+    "Need update password": "Need update password",
+    "Need update password - Tooltip": "Force user update password after login",
     "New Email": "Email baru",
     "New Password": "Kata Sandi Baru",
     "New User": "Pengguna Baru",
@@ -1171,6 +1178,7 @@
     "input password": "masukkan kata sandi"
   },
   "verification": {
+    "Is used": "Is used",
     "Receiver": "Receiver"
   },
   "webhook": {
