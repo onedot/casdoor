@@ -50,7 +50,7 @@ func (cm *InroadSaltCredManager) GetHashedPassword(password string, userSalt str
 func (cm *InroadSaltCredManager) IsPasswordCorrect(plainPwd string, hashedPwd string, userSalt string, organizationSalt string) bool {
 
 	// 使用base64.StdEncoding解码
-        decodedBytes, err := base64.StdEncoding.DecodeString(hashedPwd)
+        decodedBytes := base64.StdEncoding.DecodeString(hashedPwd)
 	saltBytes := decodedBytes[1:17]
 	
 	return hashedPwd == cm.GetHashedPassword(plainPwd, base64.StdEncoding.EncodeToString(saltBytes), organizationSalt)
