@@ -15,7 +15,6 @@
 package cred
 
 import (
-	"crypto/sha256"
 	"crypto/sha1"
 	"encoding/base64"
 
@@ -32,7 +31,7 @@ func NewInroadSaltCredManager() *InroadSaltCredManager {
 func (cm *InroadSaltCredManager) GetHashedPassword(password string, userSalt string, organizationSalt string) string {
 	// https://www.keycloak.org/docs/latest/server_admin/index.html#password-database-compromised
 	decodedSalt, _ := base64.StdEncoding.DecodeString(userSalt)
-	res := pbkdf2.Key([]byte(password), decodedSalt, 1000, sha1.size, sha1.New)
+	res := pbkdf2.Key([]byte(password), decodedSalt, 1000, 16, sha1.New)
 	return base64.StdEncoding.EncodeToString(res)
 }
 
