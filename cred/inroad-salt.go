@@ -32,7 +32,7 @@ func (cm *InroadSaltCredManager) GetHashedPassword(password string, userSalt str
 	// 使用base64.StdEncoding解码
         decodedBytes, err := base64.StdEncoding.DecodeString(password)
 	saltBytes := decodedBytes[1:17]
-	passwordBytes:= decodedBytes[17:50]
+	passwordBytes:= decodedBytes[17:]
 	
 	decodedSalt, _ := base64.StdEncoding.DecodeString(userSalt)
 	res := pbkdf2.Key(passwordBytes), saltBytes, 1000, 32, sha1.New)
