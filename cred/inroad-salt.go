@@ -29,9 +29,13 @@ func NewInroadSaltCredManager() *InroadSaltCredManager {
 }
 
 func (cm *InroadSaltCredManager) GetHashedPassword(password string, userSalt string, organizationSalt string) string {
-	// https://www.keycloak.org/docs/latest/server_admin/index.html#password-database-compromised
+	// 使用base64.StdEncoding解码
+        decodedBytes, err := base64.StdEncoding.DecodeString(password)
+	saltBytes := decodedBytes[1:17]
+	passwordBytes:= decodedBytes[17:50]
+	
 	decodedSalt, _ := base64.StdEncoding.DecodeString(userSalt)
-	res := pbkdf2.Key([]byte(password), decodedSalt, 1000, 16, sha1.New)
+	res := pbkdf2.Key(passwordBytes), saltBytes, 1000, 32, sha1.New)
 	return base64.StdEncoding.EncodeToString(res)
 }
 
