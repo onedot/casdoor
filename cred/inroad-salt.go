@@ -33,8 +33,18 @@ func (cm *InroadSaltCredManager) GetHashedPassword(password string, userSalt str
 	decodedSalt, _ := base64.StdEncoding.DecodeString(userSalt)
 	plainPasswordBytes := pbkdf2.Key([]byte(password), decodedSalt, 1000, 32, sha1.New)
 
-	res := append(decodedSalt,plainPasswordBytes)
-	return base64.StdEncoding.EncodeToString(res)
+	// 创建一个足够大的数组来存储结果
+     	combinedBytes := make([]byte, 0, 49)
+
+	// 0号元素
+	var bytes1 [1]byte = [1]byte{1}
+	combinedBytes = append(combinedBytes, bytes1[:]...)
+	// 将第一个字节数组的内容复制到combinedBytes
+	combinedBytes = append(combinedBytes, decodedSalt[:]...)
+	// 将第二个字节数组的内容复制到combinedBytes
+	combinedBytes = append(combinedBytes, plainPasswordBytes[:]...)
+	
+	return base64.StdEncoding.EncodeToString(combinedBytes)
 }
 
 func (cm *InroadSaltCredManager) IsPasswordCorrect(plainPwd string, hashedPwd string, userSalt string, organizationSalt string) bool {
@@ -42,7 +52,6 @@ func (cm *InroadSaltCredManager) IsPasswordCorrect(plainPwd string, hashedPwd st
 	// 使用base64.StdEncoding解码
         decodedBytes, err := base64.StdEncoding.DecodeString(hashedPwd)
 	saltBytes := decodedBytes[1:17]
-	passwordBytes:= decodedBytes[16:50]
 	
 	return hashedPwd == cm.GetHashedPassword(plainPwd, base64.StdEncoding.EncodeToString(saltBytes), organizationSalt)
 }
