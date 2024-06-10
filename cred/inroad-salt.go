@@ -29,16 +29,20 @@ func NewInroadSaltCredManager() *InroadSaltCredManager {
 }
 
 func (cm *InroadSaltCredManager) GetHashedPassword(password string, userSalt string, organizationSalt string) string {
-	// 使用base64.StdEncoding解码
-        decodedBytes, err := base64.StdEncoding.DecodeString(password)
-	saltBytes := decodedBytes[1:17]
-	passwordBytes:= decodedBytes[16:len(decodedBytes)]
-	
+	// https://www.keycloak.org/docs/latest/server_admin/index.html#password-database-compromised
 	decodedSalt, _ := base64.StdEncoding.DecodeString(userSalt)
-	res := pbkdf2.Key(passwordBytes), saltBytes, 1000, 32, sha1.New)
+	passwordBytes := pbkdf2.Key([]byte(password), decodedSalt, 100, 32, sha1.New)
+
+	res := append（decodedSalt,passwordBytes）
 	return base64.StdEncoding.EncodeToString(res)
 }
 
 func (cm *InroadSaltCredManager) IsPasswordCorrect(plainPwd string, hashedPwd string, userSalt string, organizationSalt string) bool {
-	return hashedPwd == cm.GetHashedPassword(plainPwd, userSalt, organizationSalt)
+
+	// 使用base64.StdEncoding解码
+        decodedBytes, err := base64.StdEncoding.DecodeString(hashedPwd)
+	saltBytes := decodedBytes[1:17]
+	passwordBytes:= decodedBytes[16:50]
+	
+	return hashedPwd == cm.GetHashedPassword(plainPwd, base64.StdEncoding.EncodeToString(saltBytes), organizationSalt)
 }
