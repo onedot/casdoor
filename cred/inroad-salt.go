@@ -37,7 +37,7 @@ func (cm *InroadSaltCredManager) GetHashedPassword(password string, userSalt str
 	combinedBytes := make([]byte, 0, 49)
 
 	// 0号元素
-	bytes1 := [1]byte{0}
+	bytes1 := [1]byte{1}
 	combinedBytes = append(combinedBytes, bytes1[:]...)
 	// 将第一个字节数组的内容复制到combinedBytes
 	combinedBytes = append(combinedBytes, decodedSalt[:]...)
