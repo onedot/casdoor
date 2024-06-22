@@ -31,8 +31,7 @@ func NewInroadSaltCredManager() *InroadSaltCredManager {
 }
 
 func (cm *InroadSaltCredManager) GetHashedPassword(password string, userSalt string, organizationSalt string) string {
-	// https://www.keycloak.org/docs/latest/server_admin/index.html#password-database-compromised
-	//无盐值时，使用随机盐值生成密码
+	// 无盐值时，使用随机盐值生成密码
 	var decodedSalt []byte
 	if userSalt != "" {
 		decodedSalt, _ = base64.StdEncoding.DecodeString(userSalt)
@@ -40,6 +39,7 @@ func (cm *InroadSaltCredManager) GetHashedPassword(password string, userSalt str
 		decodedSalt, _ = generateSalt(16)
 	}
 
+	// https://www.keycloak.org/docs/latest/server_admin/index.html#password-database-compromised
 	plainPasswordBytes := pbkdf2.Key([]byte(password), decodedSalt, 1000, 32, sha1.New)
 
 	// 创建一个足够大的数组来存储结果
