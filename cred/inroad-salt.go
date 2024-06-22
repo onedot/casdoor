@@ -15,8 +15,10 @@
 package cred
 
 import (
+	"crypto/rand"
 	"crypto/sha1"
 	"encoding/base64"
+	"io"
 
 	"golang.org/x/crypto/pbkdf2"
 )
@@ -30,7 +32,14 @@ func NewInroadSaltCredManager() *InroadSaltCredManager {
 
 func (cm *InroadSaltCredManager) GetHashedPassword(password string, userSalt string, organizationSalt string) string {
 	// https://www.keycloak.org/docs/latest/server_admin/index.html#password-database-compromised
-	decodedSalt, _ := base64.StdEncoding.DecodeString(userSalt)
+	//无盐值时，使用随机盐值生成密码
+	var decodedSalt []byte
+	if userSalt != "" {
+		decodedSalt, _ = base64.StdEncoding.DecodeString(userSalt)
+	} else {
+		decodedSalt, _ = generateSalt(16)
+	}
+
 	plainPasswordBytes := pbkdf2.Key([]byte(password), decodedSalt, 1000, 32, sha1.New)
 
 	// 创建一个足够大的数组来存储结果
@@ -57,4 +66,16 @@ func (cm *InroadSaltCredManager) IsPasswordCorrect(plainPwd string, hashedPwd st
 	}
 
 	return hashedPwd == cm.GetHashedPassword(plainPwd, base64.StdEncoding.EncodeToString(saltBytes), organizationSalt)
+}
+
+// 生成指定长度的随机盐值
+func generateSalt(length int) ([]byte, error) {
+	// 创建一个长度为`length`的字节切片
+	salt := make([]byte, length)
+	// 用加密安全的随机数填充字节切片
+	_, err := io.ReadFull(rand.Reader, salt)
+	if err != nil {
+		return nil, err
+	}
+	return salt, nil
 }
