@@ -63,6 +63,7 @@ require (
 	golang.org/x/crypto v0.21.0
 	golang.org/x/net v0.21.0
 	golang.org/x/oauth2 v0.17.0
+	golang.org/x/tools v0.17.0 // indirect
 	google.golang.org/api v0.150.0
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/square/go-jose.v2 v2.6.0
