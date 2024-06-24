@@ -38,7 +38,7 @@ func (mfa *TotpMfa) Initiate(userId string) (*MfaProps, error) {
 	//if issuer == "" {
 	//	issuer = "casdoor"
 	//}
-	issuer := "Casdoor"
+	issuer := "inroad"
 
 	key, err := totp.Generate(totp.GenerateOpts{
 		Issuer:      issuer,
