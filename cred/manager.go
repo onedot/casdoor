@@ -36,6 +36,8 @@ func GetCredManager(passwordType string) CredManager {
 		return NewArgon2idCredManager()
 	} else if passwordType == "inroad-salt" {
 		return NewInroadSaltCredManager()
+	} else if passwordType == "nobase-salt" {
+		return NewNoBaseCredManager()
 	}
 
 	return nil
