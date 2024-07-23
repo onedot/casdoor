@@ -3,10 +3,10 @@ package cred
 import (
 	"crypto/rand"
 	"encoding/hex"
-
-	"golang.org/x/crypto/scrypt"
 	"io"
 	"strconv"
+
+	"golang.org/x/crypto/scrypt"
 )
 
 type NoBaseCredManager struct{}
@@ -38,7 +38,7 @@ func (cm *NoBaseCredManager) GetHashedPassword(password string, userSalt string,
 		return ""
 	}
 
-	var newpass = userSalt + hex.EncodeToString(plainPasswordBytes)
+	newpass := userSalt + hex.EncodeToString(plainPasswordBytes)
 	return newpass
 }
 
