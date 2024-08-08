@@ -25,7 +25,11 @@ import {BrowserRouter} from "react-router-dom";
 import "./backend/FetchFilter";
 
 const container = document.getElementById("root");
-
+if (!String.prototype.replaceAll) {
+  String.prototype.replaceAll = function(search, replacement) {
+    return this.split(search).join(replacement);
+  };
+}
 const app = createRoot(container);
 
 app.render(<BrowserRouter>
