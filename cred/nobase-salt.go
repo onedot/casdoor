@@ -1,9 +1,7 @@
 package cred
 
 import (
-	"crypto/rand"
 	"encoding/hex"
-	"io"
 	"strconv"
 
 	"golang.org/x/crypto/scrypt"
@@ -23,17 +21,20 @@ func (cm *NoBaseCredManager) GetHashedPassword(password string, userSalt string,
 		decodedSalt = []byte(userSalt)
 	} else {
 		// 创建一个长度为`length`的字节切片
-		decodedSalt := make([]byte, 8)
-		// 用加密安全的随机数填充字节切片
-		_, err := io.ReadFull(rand.Reader, decodedSalt)
-		if err != nil {
-			return ""
-		}
+		//decodedSalt := make([]byte, 8)
+		//// 用加密安全的随机数填充字节切片
+		//_, err := io.ReadFull(rand.Reader, decodedSalt)
+		//if err != nil {
+		//	return ""
+		//}
+		//userSalt = hex.EncodeToString(decodedSalt)
+		decodedSalt, _ = generateSalt(8)
 		userSalt = hex.EncodeToString(decodedSalt)
 	}
 
 	// https://www.keycloak.org/docs/latest/server_admin/index.html#password-database-compromised
-	plainPasswordBytes, err := scrypt.Key([]byte(password), decodedSalt, 16384, 8, 1, 24)
+	plainPasswordBytes, err := scrypt.Key([]byte(password), []byte(userSalt), 16384, 8, 1, 24)
+
 	if err != nil {
 		return ""
 	}
