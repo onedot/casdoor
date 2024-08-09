@@ -17,9 +17,7 @@ func NewNoBaseCredManager() *NoBaseCredManager {
 func (cm *NoBaseCredManager) GetHashedPassword(password string, userSalt string, organizationSalt string) string {
 	// 无盐值时，使用随机盐值生成密码
 	var decodedSalt []byte
-	if userSalt != "" {
-		decodedSalt = []byte(userSalt)
-	} else {
+	if userSalt == "" {
 		// 创建一个长度为`length`的字节切片
 		//decodedSalt := make([]byte, 8)
 		//// 用加密安全的随机数填充字节切片
@@ -27,7 +25,6 @@ func (cm *NoBaseCredManager) GetHashedPassword(password string, userSalt string,
 		//if err != nil {
 		//	return ""
 		//}
-		//userSalt = hex.EncodeToString(decodedSalt)
 		decodedSalt, _ = generateSalt(8)
 		userSalt = hex.EncodeToString(decodedSalt)
 	}
