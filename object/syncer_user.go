@@ -75,7 +75,8 @@ func (syncer *Syncer) getCasdoorColumns() []string {
 }
 
 func (syncer *Syncer) updateUser(user *OriginalUser) (bool, error) {
-	key := syncer.getKey()
+	column := syncer.getKeyColumn()
+	key := column.Name
 	m := syncer.getMapFromOriginalUser(user)
 	pkValue := m[key]
 	delete(m, key)
