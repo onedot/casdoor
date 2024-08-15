@@ -661,7 +661,7 @@ class LoginPage extends React.Component {
               id="input"
               className="login-username-input"
               prefix={<UserOutlined className="site-form-item-icon" />}
-              placeholder={this.getPlaceholder()}
+              placeholder={signinItem.placeholder || this.getPlaceholder()}
               onChange={e => {
                 this.setState({
                   username: e.target.value,
@@ -1062,7 +1062,7 @@ class LoginPage extends React.Component {
                 className="login-password-input"
                 prefix={<LockOutlined className="site-form-item-icon" />}
                 type="password"
-                placeholder={i18next.t("general:Password")}
+                placeholder={signinItem.placeholder || i18next.t("general:Password")}
                 disabled={this.state.loginMethod === "password" ? !Setting.isPasswordEnabled(application) : !Setting.isLdapEnabled(application)}
               />
             </Form.Item>
