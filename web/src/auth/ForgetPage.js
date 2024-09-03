@@ -279,7 +279,7 @@ class ForgetPage extends React.Component {
           size="large"
         >
           <Form.Item
-            style={{height: 0, visibility: "hidden"}}
+            style={{display: "none"}}
             name="application"
             rules={[
               {
@@ -475,7 +475,7 @@ class ForgetPage extends React.Component {
             <Col span={24} style={{justifyContent: "center"}}>
               <Row>
                 <Col span={24}>
-                  <div style={{marginTop: "80px", marginBottom: "10px", textAlign: "center"}}>
+                  <div style={{marginTop: "0px", marginBottom: "0px", textAlign: "center"}}>
                     {
                       Setting.renderHelmet(application)
                     }
@@ -514,7 +514,7 @@ class ForgetPage extends React.Component {
                       width: "90%",
                       maxWidth: "500px",
                       margin: "auto",
-                      marginTop: "80px",
+                      marginTop: "10px",
                     }}
                   >
                   </Steps>
@@ -522,7 +522,7 @@ class ForgetPage extends React.Component {
               </Row>
             </Col>
             <Col span={24} style={{display: "flex", justifyContent: "center"}}>
-              <div style={{marginTop: "40px", textAlign: "center"}}>
+              <div style={{marginTop: "15px", textAlign: "center"}}>
                 {this.renderForm(application)}
               </div>
             </Col>
