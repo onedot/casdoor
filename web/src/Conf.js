@@ -30,4 +30,4 @@ export const ThemeDefault = {
   isCompact: false,
 };
 
-export const CustomFooter = "For more infomation, visit https://www.in-road.com (v1.8.0.0020251104)";
+export const CustomFooter = "For more infomation, visit https://www.in-road.com (v1.8.0.0020251105)";
