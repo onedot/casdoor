@@ -221,7 +221,7 @@ func (c *ApiController) GetProviderFromContext(category string) (*object.Provide
 
 	userId, ok := c.RequireSignedIn()
 	if !ok {
-		return nil, fmt.Errorf(c.T("general:Please login first"))
+		return nil, fmt.Errorf("%s", c.T("general:Please login first"))
 	}
 
 	application, err := object.GetApplicationByUserId(userId)

@@ -80,7 +80,7 @@ func fastAutoSignin(ctx *context.Context) (string, error) {
 	if err != nil {
 		return "", err
 	} else if code.Message != "" {
-		return "", fmt.Errorf(code.Message)
+		return "", fmt.Errorf("%s", code.Message)
 	}
 
 	sep := "?"

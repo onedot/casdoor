@@ -239,13 +239,13 @@ func CheckSigninCode(user *User, dest, code, lang string) error {
 	case wrongCodeError:
 		return recordSigninErrorInfo(user, lang)
 	default:
-		return fmt.Errorf(result.Msg)
+		return fmt.Errorf("%s", result.Msg)
 	}
 }
 
 func CheckFaceId(user *User, faceId []float64, lang string) error {
 	if len(user.FaceIds) == 0 {
-		return fmt.Errorf(i18n.Translate(lang, "check:Face data does not exist, cannot log in"))
+		return fmt.Errorf("%s", i18n.Translate(lang, "check:Face data does not exist, cannot log in"))
 	}
 
 	for _, userFaceId := range user.FaceIds {
@@ -262,7 +262,7 @@ func CheckFaceId(user *User, faceId []float64, lang string) error {
 		}
 	}
 
-	return fmt.Errorf(i18n.Translate(lang, "check:Face data mismatch"))
+	return fmt.Errorf("%s", i18n.Translate(lang, "check:Face data mismatch"))
 }
 
 func GetVerifyType(username string) (verificationCodeType string) {

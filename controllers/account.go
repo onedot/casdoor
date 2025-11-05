@@ -349,7 +349,7 @@ func (c *ApiController) Logout() {
 			return
 		}
 		if application == nil {
-			c.ResponseError(fmt.Sprintf(c.T("auth:The application: %s does not exist")), token.Application)
+			c.ResponseError(fmt.Sprintf(c.T("auth:The application: %s does not exist"), token.Application))
 			return
 		}
 
