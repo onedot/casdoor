@@ -65,7 +65,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-go@v4
         with:
-          go-version: '^1.24.0'
+          go-version: '^1.21.0'
           cache: false
 
       # gen a dummy config file
@@ -128,7 +128,7 @@ jobs:
   release-and-push:
     name: Release And Push
     runs-on: ubuntu-latest
-    if: github.repository == 'onedot/casdoor' && github.event_name == 'push'
+    if: github.repository == 'greatwallisme/cassdoor' && github.event_name == 'push'
     needs: [ frontend, backend, linter, e2e ]
     steps:
       - name: Checkout
@@ -145,9 +145,18 @@ jobs:
         uses: actions-ecosystem/action-get-latest-tag@v1.6.0
 
       - name: Release
-        run: yarn global add semantic-release@23.0.0 && semantic-release
+        run: |
+          yarn global add semantic-release@23.0.0
+          # Configure git for semantic-release with token authentication
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          # Use token for git operations
+          git remote set-url origin https://x-access-token:${{ secrets.GH_BOT_TOKEN }}@github.com/greatwallisme/cassdoor.git
+          # Run semantic-release with repository URL override to use authenticated URL
+          semantic-release --config .releaserc.json --repository-url https://x-access-token:${{ secrets.GH_BOT_TOKEN }}@github.com/greatwallisme/casdoor.git
         env:
           GH_TOKEN: ${{ secrets.GH_BOT_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_BOT_TOKEN }}
 
       - name: Fetch Current version
         id: get-current-tag
@@ -163,13 +172,13 @@ jobs:
           new_array=(${new_version//\./ })
 
           if [ ${old_array[0]} != ${new_array[0]} ]
-          then 
-              echo ::set-output name=push::'true'
+          then
+              echo "push=true" >> $GITHUB_OUTPUT
           elif [ ${old_array[1]} != ${new_array[1]} ]
-          then 
-              echo ::set-output name=push::'true'
+          then
+              echo "push=true" >> $GITHUB_OUTPUT
           else
-              echo ::set-output name=push::'false'
+              echo "push=false" >> $GITHUB_OUTPUT
           fi
 
       - name: Set up QEMU
@@ -183,30 +192,30 @@ jobs:
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
-        if: github.repository == 'casdoor/casdoor' && github.event_name == 'push' && steps.should_push.outputs.push=='true'
+        if: github.repository == 'greatwallisme/cassdoor' && github.event_name == 'push' && steps.should_push.outputs.push=='true'
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
       - name: Push to Docker Hub
         uses: docker/build-push-action@v5
-        if: github.repository == 'casdoor/casdoor' && github.event_name == 'push' && steps.should_push.outputs.push=='true'
+        if: github.repository == 'greatwallisme/cassdoor' && github.event_name == 'push' && steps.should_push.outputs.push=='true'
         with:
           context: .
           target: STANDARD
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: casbin/casdoor:${{steps.get-current-tag.outputs.tag }},casbin/casdoor:latest
+          tags: greatwallisme/casdoor:${{steps.get-current-tag.outputs.tag }},greatwallisme/casdoor:latest
 
       - name: Push All In One Version to Docker Hub
         uses: docker/build-push-action@v5
-        if: github.repository == 'casdoor/casdoor' && github.event_name == 'push' && steps.should_push.outputs.push=='true'
+        if: github.repository == 'greatwallisme/cassdoor' && github.event_name == 'push' && steps.should_push.outputs.push=='true'
         with:
           context: .
           target: ALLINONE
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: casbin/casdoor-all-in-one:${{steps.get-current-tag.outputs.tag }},casbin/casdoor-all-in-one:latest
+          tags: greatwallisme/casdoor-all-in-one:${{steps.get-current-tag.outputs.tag }},greatwallisme/casdoor-all-in-one:latest
 
       - uses: actions/checkout@v3
         if: steps.should_push.outputs.push=='true'

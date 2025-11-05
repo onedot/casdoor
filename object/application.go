@@ -565,7 +565,7 @@ func GetMaskedApplications(applications []*Application, userId string) []*Applic
 
 func GetAllowedApplications(applications []*Application, userId string, lang string) ([]*Application, error) {
 	if userId == "" {
-		return nil, fmt.Errorf(i18n.Translate(lang, "auth:Unauthorized operation"))
+		return nil, fmt.Errorf("%s", i18n.Translate(lang, "auth:Unauthorized operation"))
 	}
 
 	if isUserIdGlobalAdmin(userId) {
@@ -577,7 +577,7 @@ func GetAllowedApplications(applications []*Application, userId string, lang str
 		return nil, err
 	}
 	if user == nil {
-		return nil, fmt.Errorf(i18n.Translate(lang, "auth:Unauthorized operation"))
+		return nil, fmt.Errorf("%s", i18n.Translate(lang, "auth:Unauthorized operation"))
 	}
 
 	if user.IsAdmin {

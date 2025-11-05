@@ -95,7 +95,7 @@ func recordSigninErrorInfo(user *User, lang string, options ...bool) error {
 
 	leftChances := failedSigninLimit - user.SigninWrongTimes
 	if leftChances == 0 && enableCaptcha {
-		return fmt.Errorf(i18n.Translate(lang, "check:password or code is incorrect"))
+		return fmt.Errorf("%s", i18n.Translate(lang, "check:password or code is incorrect"))
 	} else if leftChances >= 0 {
 		return fmt.Errorf(i18n.Translate(lang, "check:password or code is incorrect, you have %d remaining chances"), leftChances)
 	}
