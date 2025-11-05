@@ -261,9 +261,9 @@ func (idp *DingTalkIdProvider) getUserId(unionId string, accessToken string) (st
 		return "", err
 	}
 	if data.ErrCode == 60121 {
-		return "", fmt.Errorf("该应用只允许本企业内部用户登录，您不属于该企业，无法登录")
+		return "", fmt.Errorf("%s", "该应用只允许本企业内部用户登录，您不属于该企业，无法登录")
 	} else if data.ErrCode != 0 {
-		return "", fmt.Errorf(data.ErrMessage)
+		return "", fmt.Errorf("%s", data.ErrMessage)
 	}
 	return data.Result.UserId, nil
 }
@@ -290,7 +290,7 @@ func (idp *DingTalkIdProvider) getUserCorpEmail(userId string, accessToken strin
 		return "", "", "", err
 	}
 	if data.ErrMessage != "ok" {
-		return "", "", "", fmt.Errorf(data.ErrMessage)
+		return "", "", "", fmt.Errorf("%s", data.ErrMessage)
 	}
 	return data.Result.Mobile, data.Result.Email, data.Result.JobNumber, nil
 }

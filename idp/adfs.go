@@ -102,7 +102,7 @@ func (idp *AdfsIdProvider) GetToken(code string) (*oauth2.Token, error) {
 		return nil, err
 	}
 	if pToken.ErrMsg != "" {
-		return nil, fmt.Errorf(pToken.ErrMsg)
+		return nil, fmt.Errorf("%s", pToken.ErrMsg)
 	}
 
 	token := &oauth2.Token{

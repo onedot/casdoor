@@ -304,7 +304,7 @@ func SendWebhooks(record *casvisorsdk.Record) error {
 		for _, err := range errs {
 			errStrings = append(errStrings, err.Error())
 		}
-		return fmt.Errorf(strings.Join(errStrings, " | "))
+		return fmt.Errorf("%s", strings.Join(errStrings, " | "))
 	}
 	return nil
 }
