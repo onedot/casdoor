@@ -17,7 +17,7 @@ package controllers
 import (
 	"encoding/json"
 
-	"github.com/beego/beego/utils/pagination"
+	"github.com/beego/beego/v2/server/web/pagination"
 	"github.com/casdoor/casdoor/object"
 	"github.com/casdoor/casdoor/util"
 )
@@ -30,13 +30,13 @@ import (
 // @Success 200 {array} object.Payment The Response object
 // @router /get-payments [get]
 func (c *ApiController) GetPayments() {
-	owner := c.Input().Get("owner")
-	limit := c.Input().Get("pageSize")
-	page := c.Input().Get("p")
-	field := c.Input().Get("field")
-	value := c.Input().Get("value")
-	sortField := c.Input().Get("sortField")
-	sortOrder := c.Input().Get("sortOrder")
+	owner := c.GetString("owner")
+	limit := c.GetString("pageSize")
+	page := c.GetString("p")
+	field := c.GetString("field")
+	value := c.GetString("value")
+	sortField := c.GetString("sortField")
+	sortOrder := c.GetString("sortOrder")
 
 	if limit == "" || page == "" {
 		payments, err := object.GetPayments(owner)
@@ -75,8 +75,8 @@ func (c *ApiController) GetPayments() {
 // @Success 200 {array} object.Payment The Response object
 // @router /get-user-payments [get]
 func (c *ApiController) GetUserPayments() {
-	owner := c.Input().Get("owner")
-	user := c.Input().Get("user")
+	owner := c.GetString("owner")
+	user := c.GetString("user")
 
 	payments, err := object.GetUserPayments(owner, user)
 	if err != nil {
@@ -95,7 +95,7 @@ func (c *ApiController) GetUserPayments() {
 // @Success 200 {object} object.Payment The Response object
 // @router /get-payment [get]
 func (c *ApiController) GetPayment() {
-	id := c.Input().Get("id")
+	id := c.GetString("id")
 
 	payment, err := object.GetPayment(id)
 	if err != nil {
@@ -115,7 +115,7 @@ func (c *ApiController) GetPayment() {
 // @Success 200 {object} controllers.Response The Response object
 // @router /update-payment [post]
 func (c *ApiController) UpdatePayment() {
-	id := c.Input().Get("id")
+	id := c.GetString("id")
 
 	var payment object.Payment
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &payment)
@@ -196,7 +196,7 @@ func (c *ApiController) NotifyPayment() {
 // @Success 200 {object} controllers.Response The Response object
 // @router /invoice-payment [post]
 func (c *ApiController) InvoicePayment() {
-	id := c.Input().Get("id")
+	id := c.GetString("id")
 
 	payment, err := object.GetPayment(id)
 	if err != nil {

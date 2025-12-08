@@ -17,7 +17,7 @@ package controllers
 import (
 	"encoding/json"
 
-	"github.com/beego/beego/utils/pagination"
+	"github.com/beego/beego/v2/server/web/pagination"
 	"github.com/casdoor/casdoor/object"
 	"github.com/casdoor/casdoor/util"
 )
@@ -30,13 +30,13 @@ import (
 // @Success 200 {array} object.Pricing The Response object
 // @router /get-pricings [get]
 func (c *ApiController) GetPricings() {
-	owner := c.Input().Get("owner")
-	limit := c.Input().Get("pageSize")
-	page := c.Input().Get("p")
-	field := c.Input().Get("field")
-	value := c.Input().Get("value")
-	sortField := c.Input().Get("sortField")
-	sortOrder := c.Input().Get("sortOrder")
+	owner := c.GetString("owner")
+	limit := c.GetString("pageSize")
+	page := c.GetString("p")
+	field := c.GetString("field")
+	value := c.GetString("value")
+	sortField := c.GetString("sortField")
+	sortOrder := c.GetString("sortOrder")
 
 	if limit == "" || page == "" {
 		pricings, err := object.GetPricings(owner)
@@ -73,7 +73,7 @@ func (c *ApiController) GetPricings() {
 // @Success 200 {object} object.Pricing The Response object
 // @router /get-pricing [get]
 func (c *ApiController) GetPricing() {
-	id := c.Input().Get("id")
+	id := c.GetString("id")
 
 	pricing, err := object.GetPricing(id)
 	if err != nil {
@@ -93,7 +93,7 @@ func (c *ApiController) GetPricing() {
 // @Success 200 {object} controllers.Response The Response object
 // @router /update-pricing [post]
 func (c *ApiController) UpdatePricing() {
-	id := c.Input().Get("id")
+	id := c.GetString("id")
 
 	var pricing object.Pricing
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &pricing)

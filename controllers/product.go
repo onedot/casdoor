@@ -18,7 +18,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/beego/beego/utils/pagination"
+	"github.com/beego/beego/v2/server/web/pagination"
 	"github.com/casdoor/casdoor/object"
 	"github.com/casdoor/casdoor/util"
 )
@@ -31,13 +31,13 @@ import (
 // @Success 200 {array} object.Product The Response object
 // @router /get-products [get]
 func (c *ApiController) GetProducts() {
-	owner := c.Input().Get("owner")
-	limit := c.Input().Get("pageSize")
-	page := c.Input().Get("p")
-	field := c.Input().Get("field")
-	value := c.Input().Get("value")
-	sortField := c.Input().Get("sortField")
-	sortOrder := c.Input().Get("sortOrder")
+	owner := c.GetString("owner")
+	limit := c.GetString("pageSize")
+	page := c.GetString("p")
+	field := c.GetString("field")
+	value := c.GetString("value")
+	sortField := c.GetString("sortField")
+	sortOrder := c.GetString("sortOrder")
 
 	if limit == "" || page == "" {
 		products, err := object.GetProducts(owner)
@@ -74,7 +74,7 @@ func (c *ApiController) GetProducts() {
 // @Success 200 {object} object.Product The Response object
 // @router /get-product [get]
 func (c *ApiController) GetProduct() {
-	id := c.Input().Get("id")
+	id := c.GetString("id")
 
 	product, err := object.GetProduct(id)
 	if err != nil {
@@ -100,7 +100,7 @@ func (c *ApiController) GetProduct() {
 // @Success 200 {object} controllers.Response The Response object
 // @router /update-product [post]
 func (c *ApiController) UpdateProduct() {
-	id := c.Input().Get("id")
+	id := c.GetString("id")
 
 	var product object.Product
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &product)
@@ -160,15 +160,15 @@ func (c *ApiController) DeleteProduct() {
 // @Success 200 {object} controllers.Response The Response object
 // @router /buy-product [post]
 func (c *ApiController) BuyProduct() {
-	id := c.Input().Get("id")
+	id := c.GetString("id")
 	host := c.Ctx.Request.Host
-	providerName := c.Input().Get("providerName")
-	paymentEnv := c.Input().Get("paymentEnv")
+	providerName := c.GetString("providerName")
+	paymentEnv := c.GetString("paymentEnv")
 
 	// buy `pricingName/planName` for `paidUserName`
-	pricingName := c.Input().Get("pricingName")
-	planName := c.Input().Get("planName")
-	paidUserName := c.Input().Get("userName")
+	pricingName := c.GetString("pricingName")
+	planName := c.GetString("planName")
+	paidUserName := c.GetString("userName")
 	owner, _ := util.GetOwnerAndNameFromId(id)
 	userId := util.GetId(owner, paidUserName)
 	if paidUserName == "" {

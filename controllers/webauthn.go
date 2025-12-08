@@ -118,8 +118,8 @@ func (c *ApiController) WebAuthnSigninBegin() {
 		return
 	}
 
-	userOwner := c.Input().Get("owner")
-	userName := c.Input().Get("name")
+	userOwner := c.GetString("owner")
+	userName := c.GetString("name")
 	user, err := object.GetUserByFields(userOwner, userName)
 	if err != nil {
 		c.ResponseError(err.Error())
@@ -153,8 +153,8 @@ func (c *ApiController) WebAuthnSigninBegin() {
 // @Success 200 {object} controllers.Response "The Response object"
 // @router /webauthn/signin/finish [post]
 func (c *ApiController) WebAuthnSigninFinish() {
-	responseType := c.Input().Get("responseType")
-	clientId := c.Input().Get("clientId")
+	responseType := c.GetString("responseType")
+	clientId := c.GetString("clientId")
 	webauthnObj, err := object.GetWebAuthnObject(c.Ctx.Request.Host)
 	if err != nil {
 		c.ResponseError(err.Error())

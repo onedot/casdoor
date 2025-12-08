@@ -34,11 +34,11 @@ import (
 // @Success 200 {object} controllers.Response The Response object
 // @router /enforce [post]
 func (c *ApiController) Enforce() {
-	permissionId := c.Input().Get("permissionId")
-	modelId := c.Input().Get("modelId")
-	resourceId := c.Input().Get("resourceId")
-	enforcerId := c.Input().Get("enforcerId")
-	owner := c.Input().Get("owner")
+	permissionId := c.GetString("permissionId")
+	modelId := c.GetString("modelId")
+	resourceId := c.GetString("resourceId")
+	enforcerId := c.GetString("enforcerId")
+	owner := c.GetString("owner")
 
 	if len(c.Ctx.Input.RequestBody) == 0 {
 		c.ResponseError("The request body should not be empty")
@@ -164,10 +164,10 @@ func (c *ApiController) Enforce() {
 // @Success 200 {object} controllers.Response The Response object
 // @router /batch-enforce [post]
 func (c *ApiController) BatchEnforce() {
-	permissionId := c.Input().Get("permissionId")
-	modelId := c.Input().Get("modelId")
-	enforcerId := c.Input().Get("enforcerId")
-	owner := c.Input().Get("owner")
+	permissionId := c.GetString("permissionId")
+	modelId := c.GetString("modelId")
+	enforcerId := c.GetString("enforcerId")
+	owner := c.GetString("owner")
 
 	var requests [][]string
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &requests)
@@ -272,7 +272,7 @@ func (c *ApiController) BatchEnforce() {
 }
 
 func (c *ApiController) GetAllObjects() {
-	userId := c.Input().Get("userId")
+	userId := c.GetString("userId")
 	if userId == "" {
 		userId = c.GetSessionUsername()
 		if userId == "" {
@@ -291,7 +291,7 @@ func (c *ApiController) GetAllObjects() {
 }
 
 func (c *ApiController) GetAllActions() {
-	userId := c.Input().Get("userId")
+	userId := c.GetString("userId")
 	if userId == "" {
 		userId = c.GetSessionUsername()
 		if userId == "" {
@@ -310,7 +310,7 @@ func (c *ApiController) GetAllActions() {
 }
 
 func (c *ApiController) GetAllRoles() {
-	userId := c.Input().Get("userId")
+	userId := c.GetString("userId")
 	if userId == "" {
 		userId = c.GetSessionUsername()
 		if userId == "" {

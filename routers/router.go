@@ -24,7 +24,7 @@
 package routers
 
 import (
-	"github.com/beego/beego"
+	beego "github.com/beego/beego/v2/server/web"
 	"github.com/casdoor/casdoor/controllers"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )

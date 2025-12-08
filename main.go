@@ -17,9 +17,9 @@ package main
 import (
 	"fmt"
 
-	"github.com/beego/beego"
-	"github.com/beego/beego/logs"
-	_ "github.com/beego/beego/session/redis"
+	beego "github.com/beego/beego/v2/server/web"
+	"github.com/beego/beego/v2/core/logs"
+	_ "github.com/beego/beego/v2/server/web/session/redis"
 	"github.com/casdoor/casdoor/authz"
 	"github.com/casdoor/casdoor/conf"
 	"github.com/casdoor/casdoor/ldap"
@@ -59,7 +59,7 @@ func main() {
 	beego.InsertFilter("*", beego.BeforeRouter, routers.ApiFilter)
 	beego.InsertFilter("*", beego.BeforeRouter, routers.PrometheusFilter)
 	beego.InsertFilter("*", beego.BeforeRouter, routers.RecordMessage)
-	beego.InsertFilter("*", beego.AfterExec, routers.AfterRecordMessage, false)
+	beego.InsertFilter("*", beego.AfterExec, routers.AfterRecordMessage, beego.WithReturnOnOutput(false))
 
 	beego.BConfig.WebConfig.Session.SessionOn = true
 	beego.BConfig.WebConfig.Session.SessionName = "casdoor_session_id"

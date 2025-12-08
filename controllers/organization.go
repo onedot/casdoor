@@ -17,7 +17,7 @@ package controllers
 import (
 	"encoding/json"
 
-	"github.com/beego/beego/utils/pagination"
+	"github.com/beego/beego/v2/server/web/pagination"
 	"github.com/casdoor/casdoor/object"
 	"github.com/casdoor/casdoor/util"
 )
@@ -30,14 +30,14 @@ import (
 // @Success 200 {array} object.Organization The Response object
 // @router /get-organizations [get]
 func (c *ApiController) GetOrganizations() {
-	owner := c.Input().Get("owner")
-	limit := c.Input().Get("pageSize")
-	page := c.Input().Get("p")
-	field := c.Input().Get("field")
-	value := c.Input().Get("value")
-	sortField := c.Input().Get("sortField")
-	sortOrder := c.Input().Get("sortOrder")
-	organizationName := c.Input().Get("organizationName")
+	owner := c.GetString("owner")
+	limit := c.GetString("pageSize")
+	page := c.GetString("p")
+	field := c.GetString("field")
+	value := c.GetString("value")
+	sortField := c.GetString("sortField")
+	sortOrder := c.GetString("sortOrder")
+	organizationName := c.GetString("organizationName")
 
 	isGlobalAdmin := c.IsGlobalAdmin()
 	if limit == "" || page == "" {
@@ -91,7 +91,7 @@ func (c *ApiController) GetOrganizations() {
 // @Success 200 {object} object.Organization The Response object
 // @router /get-organization [get]
 func (c *ApiController) GetOrganization() {
-	id := c.Input().Get("id")
+	id := c.GetString("id")
 	organization, err := object.GetMaskedOrganization(object.GetOrganization(id))
 	if err != nil {
 		c.ResponseError(err.Error())
@@ -110,7 +110,7 @@ func (c *ApiController) GetOrganization() {
 // @Success 200 {object} controllers.Response The Response object
 // @router /update-organization [post]
 func (c *ApiController) UpdateOrganization() {
-	id := c.Input().Get("id")
+	id := c.GetString("id")
 
 	var organization object.Organization
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &organization)
@@ -181,7 +181,7 @@ func (c *ApiController) DeleteOrganization() {
 // @router /get-default-application [get]
 func (c *ApiController) GetDefaultApplication() {
 	userId := c.GetSessionUsername()
-	id := c.Input().Get("id")
+	id := c.GetString("id")
 
 	application, err := object.GetDefaultApplication(id)
 	if err != nil {
@@ -201,7 +201,7 @@ func (c *ApiController) GetDefaultApplication() {
 // @Success 200 {array} object.Organization The Response object
 // @router /get-organization-names [get]
 func (c *ApiController) GetOrganizationNames() {
-	owner := c.Input().Get("owner")
+	owner := c.GetString("owner")
 	organizationNames, err := object.GetOrganizationsByFields(owner, []string{"name", "display_name"}...)
 	if err != nil {
 		c.ResponseError(err.Error())

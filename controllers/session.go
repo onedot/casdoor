@@ -17,7 +17,7 @@ package controllers
 import (
 	"encoding/json"
 
-	"github.com/beego/beego/utils/pagination"
+	"github.com/beego/beego/v2/server/web/pagination"
 	"github.com/casdoor/casdoor/object"
 	"github.com/casdoor/casdoor/util"
 )
@@ -30,13 +30,13 @@ import (
 // @Success 200 {array} string The Response object
 // @router /get-sessions [get]
 func (c *ApiController) GetSessions() {
-	limit := c.Input().Get("pageSize")
-	page := c.Input().Get("p")
-	field := c.Input().Get("field")
-	value := c.Input().Get("value")
-	sortField := c.Input().Get("sortField")
-	sortOrder := c.Input().Get("sortOrder")
-	owner := c.Input().Get("owner")
+	limit := c.GetString("pageSize")
+	page := c.GetString("p")
+	field := c.GetString("field")
+	value := c.GetString("value")
+	sortField := c.GetString("sortField")
+	sortOrder := c.GetString("sortOrder")
+	owner := c.GetString("owner")
 
 	if limit == "" || page == "" {
 		sessions, err := object.GetSessions(owner)
@@ -72,7 +72,7 @@ func (c *ApiController) GetSessions() {
 // @Success 200 {array} string The Response object
 // @router /get-session [get]
 func (c *ApiController) GetSingleSession() {
-	id := c.Input().Get("sessionPkId")
+	id := c.GetString("sessionPkId")
 
 	session, err := object.GetSingleSession(id)
 	if err != nil {
@@ -150,8 +150,8 @@ func (c *ApiController) DeleteSession() {
 // @Success 200 {array} string The Response object
 // @router /is-session-duplicated [get]
 func (c *ApiController) IsSessionDuplicated() {
-	id := c.Input().Get("sessionPkId")
-	sessionId := c.Input().Get("sessionId")
+	id := c.GetString("sessionPkId")
+	sessionId := c.GetString("sessionId")
 
 	isUserSessionDuplicated, err := object.IsSessionDuplicated(id, sessionId)
 	if err != nil {

@@ -17,7 +17,7 @@ package controllers
 import (
 	"encoding/json"
 
-	"github.com/beego/beego/utils/pagination"
+	"github.com/beego/beego/v2/server/web/pagination"
 	"github.com/casdoor/casdoor/object"
 	"github.com/casdoor/casdoor/util"
 )
@@ -30,13 +30,13 @@ import (
 // @Success 200 {array} object.Transaction The Response object
 // @router /get-transactions [get]
 func (c *ApiController) GetTransactions() {
-	owner := c.Input().Get("owner")
-	limit := c.Input().Get("pageSize")
-	page := c.Input().Get("p")
-	field := c.Input().Get("field")
-	value := c.Input().Get("value")
-	sortField := c.Input().Get("sortField")
-	sortOrder := c.Input().Get("sortOrder")
+	owner := c.Ctx.Input.Query("owner")
+	limit := c.Ctx.Input.Query("pageSize")
+	page := c.Ctx.Input.Query("p")
+	field := c.Ctx.Input.Query("field")
+	value := c.Ctx.Input.Query("value")
+	sortField := c.Ctx.Input.Query("sortField")
+	sortOrder := c.Ctx.Input.Query("sortOrder")
 
 	if limit == "" || page == "" {
 		transactions, err := object.GetTransactions(owner)
@@ -75,8 +75,8 @@ func (c *ApiController) GetTransactions() {
 // @Success 200 {array} object.Transaction The Response object
 // @router /get-user-transactions [get]
 func (c *ApiController) GetUserTransactions() {
-	owner := c.Input().Get("owner")
-	user := c.Input().Get("user")
+	owner := c.Ctx.Input.Query("owner")
+	user := c.Ctx.Input.Query("user")
 
 	transactions, err := object.GetUserTransactions(owner, user)
 	if err != nil {
@@ -95,7 +95,7 @@ func (c *ApiController) GetUserTransactions() {
 // @Success 200 {object} object.Transaction The Response object
 // @router /get-transaction [get]
 func (c *ApiController) GetTransaction() {
-	id := c.Input().Get("id")
+	id := c.Ctx.Input.Query("id")
 
 	transaction, err := object.GetTransaction(id)
 	if err != nil {
@@ -115,7 +115,7 @@ func (c *ApiController) GetTransaction() {
 // @Success 200 {object} controllers.Response The Response object
 // @router /update-transaction [post]
 func (c *ApiController) UpdateTransaction() {
-	id := c.Input().Get("id")
+	id := c.Ctx.Input.Query("id")
 
 	var transaction object.Transaction
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &transaction)

@@ -18,7 +18,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/beego/beego/utils/pagination"
+	"github.com/beego/beego/v2/server/web/pagination"
 	"github.com/casdoor/casdoor/object"
 	"github.com/casdoor/casdoor/util"
 )
@@ -32,15 +32,19 @@ import (
 // @router /get-applications [get]
 func (c *ApiController) GetApplications() {
 	userId := c.GetSessionUsername()
-	owner := c.Input().Get("owner")
-	limit := c.Input().Get("pageSize")
-	page := c.Input().Get("p")
-	field := c.Input().Get("field")
-	value := c.Input().Get("value")
-	sortField := c.Input().Get("sortField")
-	sortOrder := c.Input().Get("sortOrder")
-	organization := c.Input().Get("organization")
-	var err error
+	input, err := c.Input()
+	if err != nil {
+		c.ResponseError(err.Error())
+		return
+	}
+	owner := input.Get("owner")
+	limit := input.Get("pageSize")
+	page := input.Get("p")
+	field := input.Get("field")
+	value := input.Get("value")
+	sortField := input.Get("sortField")
+	sortOrder := input.Get("sortOrder")
+	organization := input.Get("organization")
 	if limit == "" || page == "" {
 		var applications []*object.Application
 		if organization == "" {
@@ -82,7 +86,12 @@ func (c *ApiController) GetApplications() {
 // @router /get-application [get]
 func (c *ApiController) GetApplication() {
 	userId := c.GetSessionUsername()
-	id := c.Input().Get("id")
+	input, err := c.Input()
+	if err != nil {
+		c.ResponseError(err.Error())
+		return
+	}
+	id := input.Get("id")
 
 	application, err := object.GetApplication(id)
 	if err != nil {
@@ -90,7 +99,7 @@ func (c *ApiController) GetApplication() {
 		return
 	}
 
-	if c.Input().Get("withKey") != "" && application != nil && application.Cert != "" {
+	if input.Get("withKey") != "" && application != nil && application.Cert != "" {
 		cert, err := object.GetCert(util.GetId(application.Owner, application.Cert))
 		if err != nil {
 			c.ResponseError(err.Error())
@@ -122,7 +131,12 @@ func (c *ApiController) GetApplication() {
 // @router /get-user-application [get]
 func (c *ApiController) GetUserApplication() {
 	userId := c.GetSessionUsername()
-	id := c.Input().Get("id")
+	input, err := c.Input()
+	if err != nil {
+		c.ResponseError(err.Error())
+		return
+	}
+	id := input.Get("id")
 
 	user, err := object.GetUser(id)
 	if err != nil {
@@ -156,14 +170,19 @@ func (c *ApiController) GetUserApplication() {
 // @router /get-organization-applications [get]
 func (c *ApiController) GetOrganizationApplications() {
 	userId := c.GetSessionUsername()
-	organization := c.Input().Get("organization")
-	owner := c.Input().Get("owner")
-	limit := c.Input().Get("pageSize")
-	page := c.Input().Get("p")
-	field := c.Input().Get("field")
-	value := c.Input().Get("value")
-	sortField := c.Input().Get("sortField")
-	sortOrder := c.Input().Get("sortOrder")
+	input, err := c.Input()
+	if err != nil {
+		c.ResponseError(err.Error())
+		return
+	}
+	organization := input.Get("organization")
+	owner := input.Get("owner")
+	limit := input.Get("pageSize")
+	page := input.Get("p")
+	field := input.Get("field")
+	value := input.Get("value")
+	sortField := input.Get("sortField")
+	sortOrder := input.Get("sortOrder")
 
 	if organization == "" {
 		c.ResponseError(c.T("general:Missing parameter") + ": organization")
@@ -220,12 +239,17 @@ func (c *ApiController) GetOrganizationApplications() {
 // @Success 200 {object} controllers.Response The Response object
 // @router /update-application [post]
 func (c *ApiController) UpdateApplication() {
-	id := c.Input().Get("id")
-
-	var application object.Application
-	err := json.Unmarshal(c.Ctx.Input.RequestBody, &application)
+	input, err := c.Input()
 	if err != nil {
 		c.ResponseError(err.Error())
+		return
+	}
+	id := input.Get("id")
+
+	var application object.Application
+	err2 := json.Unmarshal(c.Ctx.Input.RequestBody, &application)
+	if err2 != nil {
+		c.ResponseError(err2.Error())
 		return
 	}
 

@@ -297,9 +297,14 @@ func (c *ApiController) Signup() {
 // @router /logout [post]
 func (c *ApiController) Logout() {
 	// https://openid.net/specs/openid-connect-rpinitiated-1_0-final.html
-	accessToken := c.Input().Get("id_token_hint")
-	redirectUri := c.Input().Get("post_logout_redirect_uri")
-	state := c.Input().Get("state")
+	input, err := c.Input()
+	if err != nil {
+		c.ResponseError(err.Error())
+		return
+	}
+	accessToken := input.Get("id_token_hint")
+	redirectUri := input.Get("post_logout_redirect_uri")
+	state := input.Get("state")
 
 	user := c.GetSessionUsername()
 
@@ -313,7 +318,7 @@ func (c *ApiController) Logout() {
 		c.ClearUserSession()
 		c.ClearTokenSession()
 		owner, username := util.GetOwnerAndNameFromId(user)
-		_, err := object.DeleteSessionId(util.GetSessionId(owner, username, object.CasdoorApplication), c.Ctx.Input.CruSession.SessionID())
+		_, err := object.DeleteSessionId(util.GetSessionId(owner, username, object.CasdoorApplication), c.Ctx.Input.CruSession.SessionID(c.Ctx.Request.Context()))
 		if err != nil {
 			c.ResponseError(err.Error())
 			return
@@ -362,7 +367,7 @@ func (c *ApiController) Logout() {
 		// TODO https://github.com/casdoor/casdoor/pull/1494#discussion_r1095675265
 		owner, username := util.GetOwnerAndNameFromId(user)
 
-		_, err = object.DeleteSessionId(util.GetSessionId(owner, username, object.CasdoorApplication), c.Ctx.Input.CruSession.SessionID())
+		_, err = object.DeleteSessionId(util.GetSessionId(owner, username, object.CasdoorApplication), c.Ctx.Input.CruSession.SessionID(c.Ctx.Request.Context()))
 		if err != nil {
 			c.ResponseError(err.Error())
 			return
@@ -405,7 +410,12 @@ func (c *ApiController) GetAccount() {
 		return
 	}
 
-	managedAccounts := c.Input().Get("managedAccounts")
+	input, err := c.Input()
+	if err != nil {
+		c.ResponseError(err.Error())
+		return
+	}
+	managedAccounts := input.Get("managedAccounts")
 	if managedAccounts == "1" {
 		user, err = object.ExtendManagedAccountsWithUser(user)
 		if err != nil {
@@ -519,8 +529,13 @@ func (c *ApiController) GetUserinfo2() {
 // @router /get-captcha [get]
 // @Success 200 {object} object.Userinfo The Response object
 func (c *ApiController) GetCaptcha() {
-	applicationId := c.Input().Get("applicationId")
-	isCurrentProvider := c.Input().Get("isCurrentProvider")
+	input, err := c.Input()
+	if err != nil {
+		c.ResponseError(err.Error())
+		return
+	}
+	applicationId := input.Get("applicationId")
+	isCurrentProvider := input.Get("isCurrentProvider")
 
 	captchaProvider, err := object.GetCaptchaProviderByApplication(applicationId, isCurrentProvider, c.GetAcceptLanguage())
 	if err != nil {

@@ -17,7 +17,7 @@ package controllers
 import (
 	"encoding/json"
 
-	"github.com/beego/beego/utils/pagination"
+	"github.com/beego/beego/v2/server/web/pagination"
 	"github.com/casdoor/casdoor/object"
 	"github.com/casdoor/casdoor/util"
 )
@@ -30,13 +30,13 @@ import (
 // @Success 200 {array} object.Model The Response object
 // @router /get-models [get]
 func (c *ApiController) GetModels() {
-	owner := c.Input().Get("owner")
-	limit := c.Input().Get("pageSize")
-	page := c.Input().Get("p")
-	field := c.Input().Get("field")
-	value := c.Input().Get("value")
-	sortField := c.Input().Get("sortField")
-	sortOrder := c.Input().Get("sortOrder")
+	owner := c.GetString("owner")
+	limit := c.GetString("pageSize")
+	page := c.GetString("p")
+	field := c.GetString("field")
+	value := c.GetString("value")
+	sortField := c.GetString("sortField")
+	sortOrder := c.GetString("sortOrder")
 
 	if limit == "" || page == "" {
 		models, err := object.GetModels(owner)
@@ -73,7 +73,7 @@ func (c *ApiController) GetModels() {
 // @Success 200 {object} object.Model The Response object
 // @router /get-model [get]
 func (c *ApiController) GetModel() {
-	id := c.Input().Get("id")
+	id := c.GetString("id")
 
 	model, err := object.GetModel(id)
 	if err != nil {
@@ -93,7 +93,7 @@ func (c *ApiController) GetModel() {
 // @Success 200 {object} controllers.Response The Response object
 // @router /update-model [post]
 func (c *ApiController) UpdateModel() {
-	id := c.Input().Get("id")
+	id := c.GetString("id")
 
 	var model object.Model
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &model)

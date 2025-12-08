@@ -17,7 +17,7 @@ package controllers
 import (
 	"encoding/json"
 
-	"github.com/beego/beego/utils/pagination"
+	"github.com/beego/beego/v2/server/web/pagination"
 	"github.com/casdoor/casdoor/object"
 	"github.com/casdoor/casdoor/util"
 	xormadapter "github.com/casdoor/xorm-adapter/v3"
@@ -31,13 +31,13 @@ import (
 // @Success 200 {array} object.Enforcer
 // @router /get-enforcers [get]
 func (c *ApiController) GetEnforcers() {
-	owner := c.Input().Get("owner")
-	limit := c.Input().Get("pageSize")
-	page := c.Input().Get("p")
-	field := c.Input().Get("field")
-	value := c.Input().Get("value")
-	sortField := c.Input().Get("sortField")
-	sortOrder := c.Input().Get("sortOrder")
+	owner := c.GetString("owner")
+	limit := c.GetString("pageSize")
+	page := c.GetString("p")
+	field := c.GetString("field")
+	value := c.GetString("value")
+	sortField := c.GetString("sortField")
+	sortOrder := c.GetString("sortOrder")
 
 	if limit == "" || page == "" {
 		enforcers, err := object.GetEnforcers(owner)
@@ -74,8 +74,8 @@ func (c *ApiController) GetEnforcers() {
 // @Success 200 {object} object.Enforcer
 // @router /get-enforcer [get]
 func (c *ApiController) GetEnforcer() {
-	id := c.Input().Get("id")
-	loadModelCfg := c.Input().Get("loadModelCfg")
+	id := c.GetString("id")
+	loadModelCfg := c.GetString("loadModelCfg")
 
 	enforcer, err := object.GetEnforcer(id)
 	if err != nil {
@@ -102,7 +102,7 @@ func (c *ApiController) GetEnforcer() {
 // @Success 200 {object} object.Enforcer
 // @router /update-enforcer [post]
 func (c *ApiController) UpdateEnforcer() {
-	id := c.Input().Get("id")
+	id := c.GetString("id")
 
 	enforcer := object.Enforcer{}
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &enforcer)
@@ -154,8 +154,8 @@ func (c *ApiController) DeleteEnforcer() {
 }
 
 func (c *ApiController) GetPolicies() {
-	id := c.Input().Get("id")
-	adapterId := c.Input().Get("adapterId")
+	id := c.GetString("id")
+	adapterId := c.GetString("adapterId")
 
 	if adapterId != "" {
 		adapter, err := object.GetAdapter(adapterId)
@@ -182,7 +182,7 @@ func (c *ApiController) GetPolicies() {
 }
 
 func (c *ApiController) UpdatePolicy() {
-	id := c.Input().Get("id")
+	id := c.GetString("id")
 
 	var policies []xormadapter.CasbinRule
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &policies)
@@ -201,7 +201,7 @@ func (c *ApiController) UpdatePolicy() {
 }
 
 func (c *ApiController) AddPolicy() {
-	id := c.Input().Get("id")
+	id := c.GetString("id")
 
 	var policy xormadapter.CasbinRule
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &policy)
@@ -220,7 +220,7 @@ func (c *ApiController) AddPolicy() {
 }
 
 func (c *ApiController) RemovePolicy() {
-	id := c.Input().Get("id")
+	id := c.GetString("id")
 
 	var policy xormadapter.CasbinRule
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &policy)

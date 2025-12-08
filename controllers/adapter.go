@@ -17,7 +17,7 @@ package controllers
 import (
 	"encoding/json"
 
-	"github.com/beego/beego/utils/pagination"
+	"github.com/beego/beego/v2/server/web/pagination"
 	"github.com/casdoor/casdoor/object"
 	"github.com/casdoor/casdoor/util"
 )
@@ -30,13 +30,18 @@ import (
 // @Success 200 {array} object.Adapter The Response object
 // @router /get-adapters [get]
 func (c *ApiController) GetAdapters() {
-	owner := c.Input().Get("owner")
-	limit := c.Input().Get("pageSize")
-	page := c.Input().Get("p")
-	field := c.Input().Get("field")
-	value := c.Input().Get("value")
-	sortField := c.Input().Get("sortField")
-	sortOrder := c.Input().Get("sortOrder")
+	input, err := c.Input()
+	if err != nil {
+		c.ResponseError(err.Error())
+		return
+	}
+	owner := input.Get("owner")
+	limit := input.Get("pageSize")
+	page := input.Get("p")
+	field := input.Get("field")
+	value := input.Get("value")
+	sortField := input.Get("sortField")
+	sortOrder := input.Get("sortOrder")
 
 	if limit == "" || page == "" {
 		adapters, err := object.GetAdapters(owner)
@@ -73,7 +78,12 @@ func (c *ApiController) GetAdapters() {
 // @Success 200 {object} object.Adapter The Response object
 // @router /get-adapter [get]
 func (c *ApiController) GetAdapter() {
-	id := c.Input().Get("id")
+	input2, err := c.Input()
+	if err != nil {
+		c.ResponseError(err.Error())
+		return
+	}
+	id := input2.Get("id")
 
 	adapter, err := object.GetAdapter(id)
 	if err != nil {
@@ -93,12 +103,17 @@ func (c *ApiController) GetAdapter() {
 // @Success 200 {object} controllers.Response The Response object
 // @router /update-adapter [post]
 func (c *ApiController) UpdateAdapter() {
-	id := c.Input().Get("id")
-
-	var adapter object.Adapter
-	err := json.Unmarshal(c.Ctx.Input.RequestBody, &adapter)
+	input, err := c.Input()
 	if err != nil {
 		c.ResponseError(err.Error())
+		return
+	}
+	id := input.Get("id")
+
+	var adapter object.Adapter
+	err2 := json.Unmarshal(c.Ctx.Input.RequestBody, &adapter)
+	if err2 != nil {
+		c.ResponseError(err2.Error())
 		return
 	}
 
