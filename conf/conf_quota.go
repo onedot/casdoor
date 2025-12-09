@@ -17,7 +17,7 @@ package conf
 import (
 	"encoding/json"
 
-	"github.com/beego/beego"
+	beego "github.com/beego/beego/v2/server/web"
 )
 
 type Quota struct {
@@ -34,8 +34,8 @@ func init() {
 }
 
 func initQuota() {
-	res := beego.AppConfig.String("quota")
-	if res != "" {
+	res, err := beego.AppConfig.String("quota")
+	if err == nil && res != "" {
 		err := json.Unmarshal([]byte(res), quota)
 		if err != nil {
 			panic(err)

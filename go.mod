@@ -8,7 +8,6 @@ require (
 	github.com/Masterminds/squirrel v1.5.3
 	github.com/alexedwards/argon2id v0.0.0-20211130144151-3585854a6387
 	github.com/aws/aws-sdk-go v1.45.5
-	github.com/beego/beego v1.12.12
 	github.com/beego/beego/v2 v2.3.9-0.20250526161852-8fd113aa0937
 	github.com/beevik/etree v1.1.0
 	github.com/casbin/casbin/v2 v2.77.2
@@ -153,6 +152,7 @@ require (
 	github.com/mattn/go-colorable v0.1.14 // indirect
 	github.com/mattn/go-ieproxy v0.0.1 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
+	github.com/mattn/go-sqlite3 v2.0.3+incompatible // indirect
 	github.com/mileusna/viber v1.0.1 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
@@ -228,7 +228,6 @@ require (
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.2.1 // indirect
 	gopkg.in/warnings.v0 v0.1.2 // indirect
-	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	lukechampine.com/uint128 v1.3.0 // indirect
 	maunium.net/go/maulogger/v2 v2.4.1 // indirect

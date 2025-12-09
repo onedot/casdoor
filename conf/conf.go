@@ -21,7 +21,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/beego/beego"
+	beego "github.com/beego/beego/v2/server/web"
 )
 
 func init() {
@@ -42,12 +42,13 @@ func GetConfigString(key string) string {
 		return value
 	}
 
-	res := beego.AppConfig.String(key)
+	res, _ := beego.AppConfig.String(key)
 	if res == "" {
 		if key == "staticBaseUrl" {
 			res = "https://cdn.casbin.org"
 		} else if key == "logConfig" {
-			res = fmt.Sprintf("{\"filename\": \"logs/%s.log\", \"maxdays\":99999, \"perm\":\"0770\"}", beego.AppConfig.String("appname"))
+			appname, _ := beego.AppConfig.String("appname")
+			res = fmt.Sprintf("{\"filename\": \"logs/%s.log\", \"maxdays\":99999, \"perm\":\"0770\"}", appname)
 		}
 	}
 
