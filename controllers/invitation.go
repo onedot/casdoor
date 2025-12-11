@@ -17,7 +17,7 @@ package controllers
 import (
 	"encoding/json"
 
-	"github.com/beego/beego/utils/pagination"
+	"github.com/beego/beego/v2/server/web/pagination"
 	"github.com/casdoor/casdoor/object"
 	"github.com/casdoor/casdoor/util"
 )
@@ -30,13 +30,13 @@ import (
 // @Success 200 {array} object.Invitation The Response object
 // @router /get-invitations [get]
 func (c *ApiController) GetInvitations() {
-	owner := c.Input().Get("owner")
-	limit := c.Input().Get("pageSize")
-	page := c.Input().Get("p")
-	field := c.Input().Get("field")
-	value := c.Input().Get("value")
-	sortField := c.Input().Get("sortField")
-	sortOrder := c.Input().Get("sortOrder")
+	owner := c.GetString("owner")
+	limit := c.GetString("pageSize")
+	page := c.GetString("p")
+	field := c.GetString("field")
+	value := c.GetString("value")
+	sortField := c.GetString("sortField")
+	sortOrder := c.GetString("sortOrder")
 
 	if limit == "" || page == "" {
 		invitations, err := object.GetInvitations(owner)
@@ -73,7 +73,7 @@ func (c *ApiController) GetInvitations() {
 // @Success 200 {object} object.Invitation The Response object
 // @router /get-invitation [get]
 func (c *ApiController) GetInvitation() {
-	id := c.Input().Get("id")
+	id := c.GetString("id")
 
 	invitation, err := object.GetInvitation(id)
 	if err != nil {
@@ -92,8 +92,8 @@ func (c *ApiController) GetInvitation() {
 // @Success 200 {object} object.Invitation The Response object
 // @router /get-invitation-info [get]
 func (c *ApiController) GetInvitationCodeInfo() {
-	code := c.Input().Get("code")
-	applicationId := c.Input().Get("applicationId")
+	code := c.GetString("code")
+	applicationId := c.GetString("applicationId")
 
 	application, err := object.GetApplication(applicationId)
 	if err != nil {
@@ -119,7 +119,7 @@ func (c *ApiController) GetInvitationCodeInfo() {
 // @Success 200 {object} controllers.Response The Response object
 // @router /update-invitation [post]
 func (c *ApiController) UpdateInvitation() {
-	id := c.Input().Get("id")
+	id := c.GetString("id")
 
 	var invitation object.Invitation
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &invitation)
@@ -178,7 +178,7 @@ func (c *ApiController) DeleteInvitation() {
 // @Success 200 {object} controllers.Response The Response object
 // @router /verify-invitation [get]
 func (c *ApiController) VerifyInvitation() {
-	id := c.Input().Get("id")
+	id := c.GetString("id")
 
 	payment, attachInfo, err := object.VerifyInvitation(id)
 	if err != nil {

@@ -17,7 +17,7 @@ package controllers
 import (
 	"encoding/json"
 
-	"github.com/beego/beego/utils/pagination"
+	"github.com/beego/beego/v2/server/web/pagination"
 	"github.com/casdoor/casdoor/object"
 	"github.com/casdoor/casdoor/util"
 )
@@ -30,13 +30,13 @@ import (
 // @Success 200 {array} object.Permission The Response object
 // @router /get-permissions [get]
 func (c *ApiController) GetPermissions() {
-	owner := c.Input().Get("owner")
-	limit := c.Input().Get("pageSize")
-	page := c.Input().Get("p")
-	field := c.Input().Get("field")
-	value := c.Input().Get("value")
-	sortField := c.Input().Get("sortField")
-	sortOrder := c.Input().Get("sortOrder")
+	owner := c.GetString("owner")
+	limit := c.GetString("pageSize")
+	page := c.GetString("p")
+	field := c.GetString("field")
+	value := c.GetString("value")
+	sortField := c.GetString("sortField")
+	sortOrder := c.GetString("sortOrder")
 
 	if limit == "" || page == "" {
 		permissions, err := object.GetPermissions(owner)
@@ -94,7 +94,7 @@ func (c *ApiController) GetPermissionsBySubmitter() {
 // @Success 200 {array} object.Permission The Response object
 // @router /get-permissions-by-role [get]
 func (c *ApiController) GetPermissionsByRole() {
-	id := c.Input().Get("id")
+	id := c.GetString("id")
 	permissions, err := object.GetPermissionsByRole(id)
 	if err != nil {
 		c.ResponseError(err.Error())
@@ -112,7 +112,7 @@ func (c *ApiController) GetPermissionsByRole() {
 // @Success 200 {object} object.Permission The Response object
 // @router /get-permission [get]
 func (c *ApiController) GetPermission() {
-	id := c.Input().Get("id")
+	id := c.GetString("id")
 
 	permission, err := object.GetPermission(id)
 	if err != nil {
@@ -132,7 +132,7 @@ func (c *ApiController) GetPermission() {
 // @Success 200 {object} controllers.Response The Response object
 // @router /update-permission [post]
 func (c *ApiController) UpdatePermission() {
-	id := c.Input().Get("id")
+	id := c.GetString("id")
 
 	var permission object.Permission
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &permission)

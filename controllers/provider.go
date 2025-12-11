@@ -17,7 +17,7 @@ package controllers
 import (
 	"encoding/json"
 
-	"github.com/beego/beego/utils/pagination"
+	"github.com/beego/beego/v2/server/web/pagination"
 	"github.com/casdoor/casdoor/object"
 	"github.com/casdoor/casdoor/util"
 )
@@ -30,13 +30,13 @@ import (
 // @Success 200 {array} object.Provider The Response object
 // @router /get-providers [get]
 func (c *ApiController) GetProviders() {
-	owner := c.Input().Get("owner")
-	limit := c.Input().Get("pageSize")
-	page := c.Input().Get("p")
-	field := c.Input().Get("field")
-	value := c.Input().Get("value")
-	sortField := c.Input().Get("sortField")
-	sortOrder := c.Input().Get("sortOrder")
+	owner := c.GetString("owner")
+	limit := c.GetString("pageSize")
+	page := c.GetString("p")
+	field := c.GetString("field")
+	value := c.GetString("value")
+	sortField := c.GetString("sortField")
+	sortOrder := c.GetString("sortOrder")
 
 	ok, isMaskEnabled := c.IsMaskedEnabled()
 	if !ok {
@@ -78,12 +78,12 @@ func (c *ApiController) GetProviders() {
 // @Success 200 {array} object.Provider The Response object
 // @router /get-global-providers [get]
 func (c *ApiController) GetGlobalProviders() {
-	limit := c.Input().Get("pageSize")
-	page := c.Input().Get("p")
-	field := c.Input().Get("field")
-	value := c.Input().Get("value")
-	sortField := c.Input().Get("sortField")
-	sortOrder := c.Input().Get("sortOrder")
+	limit := c.GetString("pageSize")
+	page := c.GetString("p")
+	field := c.GetString("field")
+	value := c.GetString("value")
+	sortField := c.GetString("sortField")
+	sortOrder := c.GetString("sortOrder")
 
 	ok, isMaskEnabled := c.IsMaskedEnabled()
 	if !ok {
@@ -126,7 +126,7 @@ func (c *ApiController) GetGlobalProviders() {
 // @Success 200 {object} object.Provider The Response object
 // @router /get-provider [get]
 func (c *ApiController) GetProvider() {
-	id := c.Input().Get("id")
+	id := c.GetString("id")
 
 	ok, isMaskEnabled := c.IsMaskedEnabled()
 	if !ok {
@@ -164,7 +164,7 @@ func (c *ApiController) requireProviderPermission(provider *object.Provider) boo
 // @Success 200 {object} controllers.Response The Response object
 // @router /update-provider [post]
 func (c *ApiController) UpdateProvider() {
-	id := c.Input().Get("id")
+	id := c.GetString("id")
 
 	var provider object.Provider
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &provider)

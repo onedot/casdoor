@@ -23,7 +23,7 @@ import (
 
 func (c *ApiController) GetSamlMeta() {
 	host := c.Ctx.Request.Host
-	paramApp := c.Input().Get("application")
+	paramApp := c.GetString("application")
 	application, err := object.GetApplication(paramApp)
 	if err != nil {
 		c.ResponseError(err.Error())
@@ -57,8 +57,8 @@ func (c *ApiController) HandleSamlRedirect() {
 	owner := c.Ctx.Input.Param(":owner")
 	application := c.Ctx.Input.Param(":application")
 
-	relayState := c.Input().Get("RelayState")
-	samlRequest := c.Input().Get("SAMLRequest")
+	relayState := c.GetString("RelayState")
+	samlRequest := c.GetString("SAMLRequest")
 
 	targetURL := object.GetSamlRedirectAddress(owner, application, relayState, samlRequest, host)
 

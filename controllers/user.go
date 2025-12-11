@@ -19,7 +19,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/beego/beego/utils/pagination"
+	"github.com/beego/beego/v2/server/web/pagination"
 	"github.com/casdoor/casdoor/conf"
 	"github.com/casdoor/casdoor/object"
 	"github.com/casdoor/casdoor/util"
@@ -32,12 +32,12 @@ import (
 // @Success 200 {array} object.User The Response object
 // @router /get-global-users [get]
 func (c *ApiController) GetGlobalUsers() {
-	limit := c.Input().Get("pageSize")
-	page := c.Input().Get("p")
-	field := c.Input().Get("field")
-	value := c.Input().Get("value")
-	sortField := c.Input().Get("sortField")
-	sortOrder := c.Input().Get("sortOrder")
+	limit := c.GetString("pageSize")
+	page := c.GetString("p")
+	field := c.GetString("field")
+	value := c.GetString("value")
+	sortField := c.GetString("sortField")
+	sortOrder := c.GetString("sortOrder")
 
 	if limit == "" || page == "" {
 		users, err := object.GetMaskedUsers(object.GetGlobalUsers())
@@ -80,14 +80,14 @@ func (c *ApiController) GetGlobalUsers() {
 // @Success 200 {array} object.User The Response object
 // @router /get-users [get]
 func (c *ApiController) GetUsers() {
-	owner := c.Input().Get("owner")
-	groupName := c.Input().Get("groupName")
-	limit := c.Input().Get("pageSize")
-	page := c.Input().Get("p")
-	field := c.Input().Get("field")
-	value := c.Input().Get("value")
-	sortField := c.Input().Get("sortField")
-	sortOrder := c.Input().Get("sortOrder")
+	owner := c.GetString("owner")
+	groupName := c.GetString("groupName")
+	limit := c.GetString("pageSize")
+	page := c.GetString("p")
+	field := c.GetString("field")
+	value := c.GetString("value")
+	sortField := c.GetString("sortField")
+	sortOrder := c.GetString("sortOrder")
 
 	if limit == "" || page == "" {
 		if groupName != "" {
@@ -144,11 +144,11 @@ func (c *ApiController) GetUsers() {
 // @Success 200 {object} object.User The Response object
 // @router /get-user [get]
 func (c *ApiController) GetUser() {
-	id := c.Input().Get("id")
-	email := c.Input().Get("email")
-	phone := c.Input().Get("phone")
-	userId := c.Input().Get("userId")
-	owner := c.Input().Get("owner")
+	id := c.GetString("id")
+	email := c.GetString("email")
+	phone := c.GetString("phone")
+	userId := c.GetString("userId")
+	owner := c.GetString("owner")
 	var err error
 	var userFromUserId *object.User
 	if userId != "" && owner != "" {
@@ -249,8 +249,8 @@ func (c *ApiController) GetUser() {
 // @Success 200 {object} controllers.Response The Response object
 // @router /update-user [post]
 func (c *ApiController) UpdateUser() {
-	id := c.Input().Get("id")
-	columnsStr := c.Input().Get("columns")
+	id := c.GetString("id")
+	columnsStr := c.GetString("columns")
 
 	var user object.User
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &user)
@@ -282,7 +282,7 @@ func (c *ApiController) UpdateUser() {
 		return
 	}
 
-	if c.Input().Get("allowEmpty") == "" {
+	if c.GetString("allowEmpty") == "" {
 		if user.DisplayName == "" {
 			c.ResponseError(c.T("user:Display name cannot be empty"))
 			return
@@ -563,9 +563,9 @@ func (c *ApiController) CheckUserPassword() {
 // @Success 200 {array} object.User The Response object
 // @router /get-sorted-users [get]
 func (c *ApiController) GetSortedUsers() {
-	owner := c.Input().Get("owner")
-	sorter := c.Input().Get("sorter")
-	limit := util.ParseInt(c.Input().Get("limit"))
+	owner := c.GetString("owner")
+	sorter := c.GetString("sorter")
+	limit := util.ParseInt(c.GetString("limit"))
 
 	users, err := object.GetMaskedUsers(object.GetSortedUsers(owner, sorter, limit))
 	if err != nil {
@@ -585,8 +585,8 @@ func (c *ApiController) GetSortedUsers() {
 // @Success 200 {int} int The count of filtered users for an organization
 // @router /get-user-count [get]
 func (c *ApiController) GetUserCount() {
-	owner := c.Input().Get("owner")
-	isOnline := c.Input().Get("isOnline")
+	owner := c.GetString("owner")
+	isOnline := c.GetString("isOnline")
 
 	var count int64
 	var err error

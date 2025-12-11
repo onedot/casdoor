@@ -17,7 +17,7 @@ package controllers
 import (
 	"encoding/json"
 
-	"github.com/beego/beego/utils/pagination"
+	"github.com/beego/beego/v2/server/web/pagination"
 	"github.com/casdoor/casdoor/object"
 	"github.com/casdoor/casdoor/util"
 )
@@ -30,13 +30,13 @@ import (
 // @Success 200 {array} object.Plan The Response object
 // @router /get-plans [get]
 func (c *ApiController) GetPlans() {
-	owner := c.Input().Get("owner")
-	limit := c.Input().Get("pageSize")
-	page := c.Input().Get("p")
-	field := c.Input().Get("field")
-	value := c.Input().Get("value")
-	sortField := c.Input().Get("sortField")
-	sortOrder := c.Input().Get("sortOrder")
+	owner := c.GetString("owner")
+	limit := c.GetString("pageSize")
+	page := c.GetString("p")
+	field := c.GetString("field")
+	value := c.GetString("value")
+	sortField := c.GetString("sortField")
+	sortOrder := c.GetString("sortOrder")
 
 	if limit == "" || page == "" {
 		plans, err := object.GetPlans(owner)
@@ -74,8 +74,8 @@ func (c *ApiController) GetPlans() {
 // @Success 200 {object} object.Plan The Response object
 // @router /get-plan [get]
 func (c *ApiController) GetPlan() {
-	id := c.Input().Get("id")
-	includeOption := c.Input().Get("includeOption") == "true"
+	id := c.GetString("id")
+	includeOption := c.GetString("includeOption") == "true"
 
 	plan, err := object.GetPlan(id)
 	if err != nil {
@@ -107,7 +107,7 @@ func (c *ApiController) GetPlan() {
 // @Success 200 {object} controllers.Response The Response object
 // @router /update-plan [post]
 func (c *ApiController) UpdatePlan() {
-	id := c.Input().Get("id")
+	id := c.GetString("id")
 	owner := util.GetOwnerFromId(id)
 	var plan object.Plan
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &plan)

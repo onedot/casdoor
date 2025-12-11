@@ -41,8 +41,13 @@ func queryUnescape(service string) string {
 }
 
 func (c *RootController) CasValidate() {
-	ticket := c.Input().Get("ticket")
-	service := c.Input().Get("service")
+	input, err := c.Input()
+	if err != nil {
+		c.Ctx.Output.Body([]byte("no\n"))
+		return
+	}
+	ticket := input.Get("ticket")
+	service := input.Get("service")
 	c.Ctx.Output.Header("Content-Type", "text/html; charset=utf-8")
 	if service == "" || ticket == "" {
 		c.Ctx.Output.Body([]byte("no\n"))
@@ -60,8 +65,13 @@ func (c *RootController) CasValidate() {
 }
 
 func (c *RootController) CasServiceValidate() {
-	ticket := c.Input().Get("ticket")
-	format := c.Input().Get("format")
+	input, err := c.Input()
+	if err != nil {
+		c.sendCasAuthenticationResponseErr(InvalidRequest, "failed to parse input", "xml")
+		return
+	}
+	ticket := input.Get("ticket")
+	format := input.Get("format")
 	if !strings.HasPrefix(ticket, "ST") {
 		c.sendCasAuthenticationResponseErr(InvalidTicket, fmt.Sprintf("Ticket %s not recognized", ticket), format)
 	}
@@ -75,8 +85,13 @@ func (c *RootController) CasProxyValidate() {
 }
 
 func (c *RootController) CasP3ServiceValidate() {
-	ticket := c.Input().Get("ticket")
-	format := c.Input().Get("format")
+	input, err := c.Input()
+	if err != nil {
+		c.sendCasAuthenticationResponseErr(InvalidRequest, "failed to parse input", "xml")
+		return
+	}
+	ticket := input.Get("ticket")
+	format := input.Get("format")
 	if !strings.HasPrefix(ticket, "ST") {
 		c.sendCasAuthenticationResponseErr(InvalidTicket, fmt.Sprintf("Ticket %s not recognized", ticket), format)
 	}
@@ -84,10 +99,15 @@ func (c *RootController) CasP3ServiceValidate() {
 }
 
 func (c *RootController) CasP3ProxyValidate() {
-	ticket := c.Input().Get("ticket")
-	format := c.Input().Get("format")
-	service := c.Input().Get("service")
-	pgtUrl := c.Input().Get("pgtUrl")
+	input, err := c.Input()
+	if err != nil {
+		c.sendCasAuthenticationResponseErr(InvalidRequest, "failed to parse input", "xml")
+		return
+	}
+	ticket := input.Get("ticket")
+	format := input.Get("format")
+	service := input.Get("service")
+	pgtUrl := input.Get("pgtUrl")
 
 	serviceResponse := object.CasServiceResponse{
 		Xmlns: "http://www.yale.edu/tp/cas",
@@ -161,9 +181,14 @@ func (c *RootController) CasP3ProxyValidate() {
 }
 
 func (c *RootController) CasProxy() {
-	pgt := c.Input().Get("pgt")
-	targetService := c.Input().Get("targetService")
-	format := c.Input().Get("format")
+	input, err := c.Input()
+	if err != nil {
+		c.sendCasProxyResponseErr(InvalidRequest, "failed to parse input", "xml")
+		return
+	}
+	pgt := input.Get("pgt")
+	targetService := input.Get("targetService")
+	format := input.Get("format")
 	if pgt == "" || targetService == "" {
 		c.sendCasProxyResponseErr(InvalidRequest, "pgt and targetService must exist", format)
 		return
@@ -200,7 +225,12 @@ func (c *RootController) CasProxy() {
 
 func (c *RootController) SamlValidate() {
 	c.Ctx.Output.Header("Content-Type", "text/xml; charset=utf-8")
-	target := c.Input().Get("TARGET")
+	input, err := c.Input()
+	if err != nil {
+		c.ResponseError("failed to parse input")
+		return
+	}
+	target := input.Get("TARGET")
 	body := c.Ctx.Input.RequestBody
 	envelopRequest := struct {
 		XMLName xml.Name `xml:"Envelope"`
@@ -210,7 +240,7 @@ func (c *RootController) SamlValidate() {
 		}
 	}{}
 
-	err := xml.Unmarshal(body, &envelopRequest)
+	err = xml.Unmarshal(body, &envelopRequest)
 	if err != nil {
 		c.ResponseError(err.Error())
 		return

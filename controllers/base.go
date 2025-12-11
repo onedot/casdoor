@@ -18,8 +18,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/beego/beego"
-	"github.com/beego/beego/logs"
+	beego "github.com/beego/beego/v2/server/web"
+	"github.com/beego/beego/v2/core/logs"
 	"github.com/casdoor/casdoor/object"
 	"github.com/casdoor/casdoor/util"
 )
@@ -216,7 +216,7 @@ func (c *ApiController) setMfaUserSession(userId string) {
 }
 
 func (c *ApiController) getMfaUserSession() string {
-	userId := c.Ctx.Input.CruSession.Get(object.MfaSessionUserId)
+	userId := c.Ctx.Input.CruSession.Get(c.Ctx.Request.Context(), object.MfaSessionUserId)
 	if userId == nil {
 		return ""
 	}

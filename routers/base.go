@@ -20,7 +20,7 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/beego/beego/context"
+	"github.com/beego/beego/v2/server/web/context"
 	"github.com/casdoor/casdoor/conf"
 	"github.com/casdoor/casdoor/i18n"
 	"github.com/casdoor/casdoor/object"
@@ -105,7 +105,7 @@ func getUsernameByKeys(ctx *context.Context) string {
 }
 
 func getSessionUser(ctx *context.Context) string {
-	user := ctx.Input.CruSession.Get("username")
+	user := ctx.Input.CruSession.Get(ctx.Request.Context(), "username")
 	if user == nil {
 		return ""
 	}
@@ -114,34 +114,34 @@ func getSessionUser(ctx *context.Context) string {
 }
 
 func setSessionUser(ctx *context.Context, user string) {
-	err := ctx.Input.CruSession.Set("username", user)
+	err := ctx.Input.CruSession.Set(ctx.Request.Context(), "username", user)
 	if err != nil {
 		panic(err)
 	}
 
 	// https://github.com/beego/beego/issues/3445#issuecomment-455411915
-	ctx.Input.CruSession.SessionRelease(ctx.ResponseWriter)
+	ctx.Input.CruSession.SessionRelease(ctx.Request.Context(), ctx.ResponseWriter)
 }
 
 func setSessionExpire(ctx *context.Context, ExpireTime int64) {
 	SessionData := struct{ ExpireTime int64 }{ExpireTime: ExpireTime}
-	err := ctx.Input.CruSession.Set("SessionData", util.StructToJson(SessionData))
+	err := ctx.Input.CruSession.Set(ctx.Request.Context(), "SessionData", util.StructToJson(SessionData))
 	if err != nil {
 		panic(err)
 	}
-	ctx.Input.CruSession.SessionRelease(ctx.ResponseWriter)
+	ctx.Input.CruSession.SessionRelease(ctx.Request.Context(), ctx.ResponseWriter)
 }
 
 func setSessionOidc(ctx *context.Context, scope string, aud string) {
-	err := ctx.Input.CruSession.Set("scope", scope)
+	err := ctx.Input.CruSession.Set(ctx.Request.Context(), "scope", scope)
 	if err != nil {
 		panic(err)
 	}
-	err = ctx.Input.CruSession.Set("aud", aud)
+	err = ctx.Input.CruSession.Set(ctx.Request.Context(), "aud", aud)
 	if err != nil {
 		panic(err)
 	}
-	ctx.Input.CruSession.SessionRelease(ctx.ResponseWriter)
+	ctx.Input.CruSession.SessionRelease(ctx.Request.Context(), ctx.ResponseWriter)
 }
 
 func parseBearerToken(ctx *context.Context) string {

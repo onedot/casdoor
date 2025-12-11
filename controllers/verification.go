@@ -20,7 +20,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/beego/beego/utils/pagination"
+	"github.com/beego/beego/v2/server/web/pagination"
 	"github.com/casdoor/casdoor/captcha"
 	"github.com/casdoor/casdoor/form"
 	"github.com/casdoor/casdoor/object"
@@ -44,13 +44,13 @@ const (
 // @Success 200 {array} object.Verification The Response object
 // @router /get-payments [get]
 func (c *ApiController) GetVerifications() {
-	owner := c.Input().Get("owner")
-	limit := c.Input().Get("pageSize")
-	page := c.Input().Get("p")
-	field := c.Input().Get("field")
-	value := c.Input().Get("value")
-	sortField := c.Input().Get("sortField")
-	sortOrder := c.Input().Get("sortOrder")
+	owner := c.GetString("owner")
+	limit := c.GetString("pageSize")
+	page := c.GetString("p")
+	field := c.GetString("field")
+	value := c.GetString("value")
+	sortField := c.GetString("sortField")
+	sortOrder := c.GetString("sortOrder")
 
 	if limit == "" || page == "" {
 		payments, err := object.GetVerifications(owner)
@@ -89,8 +89,8 @@ func (c *ApiController) GetVerifications() {
 // @Success 200 {array} object.Verification The Response object
 // @router /get-user-payments [get]
 func (c *ApiController) GetUserVerifications() {
-	owner := c.Input().Get("owner")
-	user := c.Input().Get("user")
+	owner := c.GetString("owner")
+	user := c.GetString("user")
 
 	payments, err := object.GetUserVerifications(owner, user)
 	if err != nil {
@@ -109,7 +109,7 @@ func (c *ApiController) GetUserVerifications() {
 // @Success 200 {object} object.Verification The Response object
 // @router /get-payment [get]
 func (c *ApiController) GetVerification() {
-	id := c.Input().Get("id")
+	id := c.GetString("id")
 
 	payment, err := object.GetVerification(id)
 	if err != nil {

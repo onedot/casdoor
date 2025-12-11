@@ -17,7 +17,7 @@ package controllers
 import (
 	"encoding/json"
 
-	"github.com/beego/beego/utils/pagination"
+	"github.com/beego/beego/v2/server/web/pagination"
 	"github.com/casdoor/casdoor/object"
 	"github.com/casdoor/casdoor/util"
 )
@@ -30,14 +30,14 @@ import (
 // @Success 200 {array} object.Syncer The Response object
 // @router /get-syncers [get]
 func (c *ApiController) GetSyncers() {
-	owner := c.Input().Get("owner")
-	limit := c.Input().Get("pageSize")
-	page := c.Input().Get("p")
-	field := c.Input().Get("field")
-	value := c.Input().Get("value")
-	sortField := c.Input().Get("sortField")
-	sortOrder := c.Input().Get("sortOrder")
-	organization := c.Input().Get("organization")
+	owner := c.GetString("owner")
+	limit := c.GetString("pageSize")
+	page := c.GetString("p")
+	field := c.GetString("field")
+	value := c.GetString("value")
+	sortField := c.GetString("sortField")
+	sortOrder := c.GetString("sortOrder")
+	organization := c.GetString("organization")
 
 	if limit == "" || page == "" {
 		syncers, err := object.GetMaskedSyncers(object.GetOrganizationSyncers(owner, organization))
@@ -74,7 +74,7 @@ func (c *ApiController) GetSyncers() {
 // @Success 200 {object} object.Syncer The Response object
 // @router /get-syncer [get]
 func (c *ApiController) GetSyncer() {
-	id := c.Input().Get("id")
+	id := c.GetString("id")
 
 	syncer, err := object.GetMaskedSyncer(object.GetSyncer(id))
 	if err != nil {
@@ -94,7 +94,7 @@ func (c *ApiController) GetSyncer() {
 // @Success 200 {object} controllers.Response The Response object
 // @router /update-syncer [post]
 func (c *ApiController) UpdateSyncer() {
-	id := c.Input().Get("id")
+	id := c.GetString("id")
 
 	var syncer object.Syncer
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &syncer)
@@ -153,7 +153,7 @@ func (c *ApiController) DeleteSyncer() {
 // @Success 200 {object} controllers.Response The Response object
 // @router /run-syncer [get]
 func (c *ApiController) RunSyncer() {
-	id := c.Input().Get("id")
+	id := c.GetString("id")
 	syncer, err := object.GetSyncer(id)
 	if err != nil {
 		c.ResponseError(err.Error())

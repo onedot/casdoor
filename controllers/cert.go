@@ -17,7 +17,7 @@ package controllers
 import (
 	"encoding/json"
 
-	"github.com/beego/beego/utils/pagination"
+	"github.com/beego/beego/v2/server/web/pagination"
 	"github.com/casdoor/casdoor/object"
 	"github.com/casdoor/casdoor/util"
 )
@@ -30,13 +30,13 @@ import (
 // @Success 200 {array} object.Cert The Response object
 // @router /get-certs [get]
 func (c *ApiController) GetCerts() {
-	owner := c.Input().Get("owner")
-	limit := c.Input().Get("pageSize")
-	page := c.Input().Get("p")
-	field := c.Input().Get("field")
-	value := c.Input().Get("value")
-	sortField := c.Input().Get("sortField")
-	sortOrder := c.Input().Get("sortOrder")
+	owner := c.GetString("owner")
+	limit := c.GetString("pageSize")
+	page := c.GetString("p")
+	field := c.GetString("field")
+	value := c.GetString("value")
+	sortField := c.GetString("sortField")
+	sortOrder := c.GetString("sortOrder")
 
 	if limit == "" || page == "" {
 		certs, err := object.GetMaskedCerts(object.GetCerts(owner))
@@ -72,12 +72,12 @@ func (c *ApiController) GetCerts() {
 // @Success 200 {array} object.Cert The Response object
 // @router /get-global-certs [get]
 func (c *ApiController) GetGlobalCerts() {
-	limit := c.Input().Get("pageSize")
-	page := c.Input().Get("p")
-	field := c.Input().Get("field")
-	value := c.Input().Get("value")
-	sortField := c.Input().Get("sortField")
-	sortOrder := c.Input().Get("sortOrder")
+	limit := c.GetString("pageSize")
+	page := c.GetString("p")
+	field := c.GetString("field")
+	value := c.GetString("value")
+	sortField := c.GetString("sortField")
+	sortOrder := c.GetString("sortOrder")
 
 	if limit == "" || page == "" {
 		certs, err := object.GetMaskedCerts(object.GetGlobalCerts())
@@ -114,7 +114,7 @@ func (c *ApiController) GetGlobalCerts() {
 // @Success 200 {object} object.Cert The Response object
 // @router /get-cert [get]
 func (c *ApiController) GetCert() {
-	id := c.Input().Get("id")
+	id := c.GetString("id")
 	cert, err := object.GetCert(id)
 	if err != nil {
 		c.ResponseError(err.Error())
@@ -133,7 +133,7 @@ func (c *ApiController) GetCert() {
 // @Success 200 {object} controllers.Response The Response object
 // @router /update-cert [post]
 func (c *ApiController) UpdateCert() {
-	id := c.Input().Get("id")
+	id := c.GetString("id")
 
 	var cert object.Cert
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &cert)

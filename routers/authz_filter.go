@@ -22,7 +22,7 @@ import (
 
 	"github.com/casdoor/casdoor/object"
 
-	"github.com/beego/beego/context"
+	"github.com/beego/beego/v2/server/web/context"
 	"github.com/casdoor/casdoor/authz"
 	"github.com/casdoor/casdoor/util"
 )
