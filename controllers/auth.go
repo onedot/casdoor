@@ -209,8 +209,8 @@ func (c *ApiController) HandleLoggedIn(application *object.Application, user *ob
 	}
 
 	if resp.Status == "ok" {
-	sessionId := c.Ctx.Input.CruSession.SessionID(c.Ctx.Request.Context())
-	_, err2 := object.AddSession(&object.Session{
+		sessionId := c.Ctx.Input.CruSession.SessionID(c.Ctx.Request.Context())
+		_, err2 := object.AddSession(&object.Session{
 			Owner:       user.Owner,
 			Name:        user.Name,
 			Application: application.Name,

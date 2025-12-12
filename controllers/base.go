@@ -18,8 +18,8 @@ import (
 	"strings"
 	"time"
 
-	beego "github.com/beego/beego/v2/server/web"
 	"github.com/beego/beego/v2/core/logs"
+	beego "github.com/beego/beego/v2/server/web"
 	"github.com/casdoor/casdoor/object"
 	"github.com/casdoor/casdoor/util"
 )
