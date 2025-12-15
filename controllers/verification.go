@@ -223,7 +223,8 @@ func (c *ApiController) SendVerificationCode() {
 			return
 		}
 
-		if vform.Method == LoginVerification || vform.Method == ForgetVerification {
+		switch vform.Method {
+		case LoginVerification, ForgetVerification:
 			if user != nil && util.GetMaskedEmail(user.Email) == vform.Dest {
 				vform.Dest = user.Email
 			}
@@ -238,15 +239,18 @@ func (c *ApiController) SendVerificationCode() {
 				c.ResponseError(c.T("verification:the user does not exist, please sign up first"))
 				return
 			}
-		} else if vform.Method == ResetVerification {
+		case ResetVerification:
 			user = c.getCurrentUser()
-		} else if vform.Method == MfaAuthVerification {
+		case MfaAuthVerification:
 			mfaProps := user.GetPreferredMfaProps(false)
 			if user != nil && util.GetMaskedEmail(mfaProps.Secret) == vform.Dest {
 				vform.Dest = mfaProps.Secret
 			}
-		} else if vform.Method == MfaSetupVerification {
+		case MfaSetupVerification:
 			c.SetSession(MfaDestSession, vform.Dest)
+		default:
+			c.ResponseError(c.T("verification:unsupported verification method"))
+			return
 		}
 
 		provider, err = application.GetEmailProvider(vform.Method)
@@ -261,7 +265,8 @@ func (c *ApiController) SendVerificationCode() {
 
 		sendResp = object.SendVerificationCodeToEmail(organization, user, provider, remoteAddr, vform.Dest)
 	case object.VerifyTypePhone:
-		if vform.Method == LoginVerification || vform.Method == ForgetVerification {
+		switch vform.Method {
+		case LoginVerification, ForgetVerification:
 			if user != nil && util.GetMaskedPhone(user.Phone) == vform.Dest {
 				vform.Dest = user.Phone
 			}
@@ -275,7 +280,7 @@ func (c *ApiController) SendVerificationCode() {
 			}
 
 			vform.CountryCode = user.GetCountryCode(vform.CountryCode)
-		} else if vform.Method == ResetVerification || vform.Method == MfaSetupVerification {
+		case ResetVerification, MfaSetupVerification:
 			if vform.CountryCode == "" {
 				if user = c.getCurrentUser(); user != nil {
 					vform.CountryCode = user.GetCountryCode(vform.CountryCode)
@@ -286,13 +291,16 @@ func (c *ApiController) SendVerificationCode() {
 				c.SetSession(MfaCountryCodeSession, vform.CountryCode)
 				c.SetSession(MfaDestSession, vform.Dest)
 			}
-		} else if vform.Method == MfaAuthVerification {
+		case MfaAuthVerification:
 			mfaProps := user.GetPreferredMfaProps(false)
 			if user != nil && util.GetMaskedPhone(mfaProps.Secret) == vform.Dest {
 				vform.Dest = mfaProps.Secret
 			}
 
 			vform.CountryCode = mfaProps.CountryCode
+		default:
+			c.ResponseError(c.T("verification:unsupported verification method"))
+			return
 		}
 
 		provider, err = application.GetSmsProvider(vform.Method, vform.CountryCode)

@@ -114,11 +114,12 @@ func (c *ApiController) HandleLoggedIn(application *object.Application, user *ob
 		}
 	}
 
-	if form.Type == ResponseTypeLogin {
+	switch form.Type {
+	case ResponseTypeLogin:
 		c.SetSessionUsername(userId)
 		util.LogInfo(c.Ctx, "API: [%s] signed in", userId)
 		resp = &Response{Status: "ok", Msg: "", Data: userId, Data2: user.NeedUpdatePassword}
-	} else if form.Type == ResponseTypeCode {
+	case ResponseTypeCode:
 		input, err := c.Input()
 		if err != nil {
 			c.ResponseError(err.Error())
@@ -149,7 +150,7 @@ func (c *ApiController) HandleLoggedIn(application *object.Application, user *ob
 			// The prompt page needs the user to be signed in
 			c.SetSessionUsername(userId)
 		}
-	} else if form.Type == ResponseTypeToken || form.Type == ResponseTypeIdToken { // implicit flow
+	case ResponseTypeToken, ResponseTypeIdToken: // implicit flow
 		if !object.IsGrantTypeValid(form.Type, application.GrantTypes) {
 			resp = &Response{Status: "error", Msg: fmt.Sprintf("error: grant_type: %s is not supported in this application", form.Type), Data: ""}
 		} else {
@@ -165,7 +166,7 @@ func (c *ApiController) HandleLoggedIn(application *object.Application, user *ob
 
 			resp.Data2 = user.NeedUpdatePassword
 		}
-	} else if form.Type == ResponseTypeSaml { // saml flow
+	case ResponseTypeSaml: // saml flow
 		res, redirectUrl, method, err := object.GetSamlResponse(application, user, form.SamlRequest, c.Ctx.Request.Host)
 		if err != nil {
 			c.ResponseError(err.Error(), nil)
@@ -177,7 +178,7 @@ func (c *ApiController) HandleLoggedIn(application *object.Application, user *ob
 			// The prompt page needs the user to be signed in
 			c.SetSessionUsername(userId)
 		}
-	} else if form.Type == ResponseTypeCas {
+	case ResponseTypeCas:
 		// not oauth but CAS SSO protocol
 		input, err := c.Input()
 		if err != nil {
@@ -195,11 +196,13 @@ func (c *ApiController) HandleLoggedIn(application *object.Application, user *ob
 			}
 		}
 
-		if application.EnableSigninSession || application.HasPromptPage() {
+		// Always set session for UI logins (responseType === "login") to maintain user state
+		// For OAuth/API flows (responseType === "code"), sessions are optional
+		if application.EnableSigninSession || application.HasPromptPage() || form.Type == ResponseTypeLogin {
 			// The prompt page needs the user to be signed in
 			c.SetSessionUsername(userId)
 		}
-	} else {
+	default:
 		resp = wrapErrorResponse(fmt.Errorf("unknown response type: %s", form.Type))
 	}
 
@@ -209,17 +212,8 @@ func (c *ApiController) HandleLoggedIn(application *object.Application, user *ob
 	}
 
 	if resp.Status == "ok" {
-		sessionId := c.Ctx.Input.CruSession.SessionID(c.Ctx.Request.Context())
-		_, err2 := object.AddSession(&object.Session{
-			Owner:       user.Owner,
-			Name:        user.Name,
-			Application: application.Name,
-			SessionId:   []string{sessionId},
-		})
-		if err2 != nil {
-			c.ResponseError(err2.Error(), nil)
-			return
-		}
+		// For API requests, session operations are handled by the client-side
+		// The login token is returned in the response for frontend handling
 	}
 
 	return resp
@@ -252,13 +246,14 @@ func (c *ApiController) GetApplicationLogin() {
 
 	var application *object.Application
 	var msg string
-	if loginType == "code" {
+	switch loginType {
+	case "code":
 		msg, application, err = object.CheckOAuthLogin(clientId, responseType, redirectUri, scope, state, c.GetAcceptLanguage())
 		if err != nil {
 			c.ResponseError(err.Error())
 			return
 		}
-	} else if loginType == "cas" {
+	case "cas":
 		application, err = object.GetApplication(id)
 		if err != nil {
 			c.ResponseError(err.Error())
@@ -573,14 +568,15 @@ func (c *ApiController) Login() {
 			return
 		}
 		userInfo := &idp.UserInfo{}
-		if provider.Category == "SAML" {
+		switch provider.Category {
+		case "SAML":
 			// SAML
 			userInfo, err = object.ParseSamlResponse(authForm.SamlResponse, provider, c.Ctx.Request.Host)
 			if err != nil {
 				c.ResponseError(err.Error())
 				return
 			}
-		} else if provider.Category == "OAuth" || provider.Category == "Web3" {
+		case "OAuth", "Web3":
 			// OAuth
 			idpInfo := object.FromProviderToIdpInfo(c.Ctx, provider)
 			var idProvider idp.IdProvider
@@ -623,14 +619,15 @@ func (c *ApiController) Login() {
 
 		if authForm.Method == "signup" {
 			user := &object.User{}
-			if provider.Category == "SAML" {
+			switch provider.Category {
+			case "SAML":
 				// The userInfo.Id is the NameID in SAML response, it could be name / email / phone
 				user, err = object.GetUserByFields(application.Organization, userInfo.Id)
 				if err != nil {
 					c.ResponseError(err.Error())
 					return
 				}
-			} else if provider.Category == "OAuth" || provider.Category == "Web3" {
+			case "OAuth", "Web3":
 				user, err = object.GetUserByField(application.Organization, provider.Type, userInfo.Id)
 				if err != nil {
 					c.ResponseError(err.Error())
@@ -998,7 +995,7 @@ func (c *ApiController) HandleOfficialAccountEvent() {
 		return
 	}
 	if data.Ticket == "" {
-		c.ResponseError(err.Error())
+		c.ResponseError("empty ticket")
 		return
 	}
 
