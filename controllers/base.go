@@ -114,7 +114,10 @@ func (c *ApiController) GetSessionUsername() string {
 		return ""
 	}
 
-	user := c.GetSession("username")
+	if c.Ctx.Input.CruSession == nil {
+		return ""
+	}
+	user := c.Ctx.Input.CruSession.Get(c.Ctx.Request.Context(), "username")
 	if user == nil {
 		return ""
 	}
@@ -123,7 +126,10 @@ func (c *ApiController) GetSessionUsername() string {
 }
 
 func (c *ApiController) GetSessionToken() string {
-	accessToken := c.GetSession("accessToken")
+	if c.Ctx.Input.CruSession == nil {
+		return ""
+	}
+	accessToken := c.Ctx.Input.CruSession.Get(c.Ctx.Request.Context(), "accessToken")
 	if accessToken == nil {
 		return ""
 	}
@@ -132,7 +138,10 @@ func (c *ApiController) GetSessionToken() string {
 }
 
 func (c *ApiController) GetSessionApplication() *object.Application {
-	clientId := c.GetSession("aud")
+	if c.Ctx.Input.CruSession == nil {
+		return nil
+	}
+	clientId := c.Ctx.Input.CruSession.Get(c.Ctx.Request.Context(), "aud")
 	if clientId == nil {
 		return nil
 	}
@@ -162,14 +171,25 @@ func (c *ApiController) GetSessionOidc() (string, string) {
 		c.ClearUserSession()
 		return "", ""
 	}
-	scopeValue := c.GetSession("scope")
-	audValue := c.GetSession("aud")
+	if c.Ctx.Input.CruSession == nil {
+		return "", ""
+	}
+	scopeValue := c.Ctx.Input.CruSession.Get(c.Ctx.Request.Context(), "scope")
+	audValue := c.Ctx.Input.CruSession.Get(c.Ctx.Request.Context(), "aud")
 	var scope, aud string
 	var ok bool
-	if scope, ok = scopeValue.(string); !ok {
+	if scopeValue != nil {
+		if scope, ok = scopeValue.(string); !ok {
+			scope = ""
+		}
+	} else {
 		scope = ""
 	}
-	if aud, ok = audValue.(string); !ok {
+	if audValue != nil {
+		if aud, ok = audValue.(string); !ok {
+			aud = ""
+		}
+	} else {
 		aud = ""
 	}
 	return scope, aud
@@ -177,22 +197,49 @@ func (c *ApiController) GetSessionOidc() (string, string) {
 
 // SetSessionUsername ...
 func (c *ApiController) SetSessionUsername(user string) {
-	c.SetSession("username", user)
+	if c.Ctx.Input.CruSession == nil {
+		logs.Error("CruSession is nil - session manager not properly initialized")
+		return
+	}
+	err := c.Ctx.Input.CruSession.Set(c.Ctx.Request.Context(), "username", user)
+	if err != nil {
+		logs.Error("SetSessionUsername failed: %s", err)
+	}
 }
 
 func (c *ApiController) SetSessionToken(accessToken string) {
-	c.SetSession("accessToken", accessToken)
+	if c.Ctx.Input.CruSession == nil {
+		return
+	}
+	err := c.Ctx.Input.CruSession.Set(c.Ctx.Request.Context(), "accessToken", accessToken)
+	if err != nil {
+		logs.Error("SetSessionToken failed: %s", err)
+	}
 }
 
 // GetSessionData ...
 func (c *ApiController) GetSessionData() *SessionData {
-	session := c.GetSession("SessionData")
+	if c.Ctx.Input.CruSession == nil {
+		return nil
+	}
+	session := c.Ctx.Input.CruSession.Get(c.Ctx.Request.Context(), "SessionData")
 	if session == nil {
 		return nil
 	}
 
 	sessionData := &SessionData{}
-	err := util.JsonToStruct(session.(string), sessionData)
+	var sessionStr string
+	switch v := session.(type) {
+	case string:
+		sessionStr = v
+	case []byte:
+		sessionStr = string(v)
+	default:
+		logs.Error("GetSessionData failed, unexpected type: %T", session)
+		return nil
+	}
+
+	err := util.JsonToStruct(sessionStr, sessionData)
 	if err != nil {
 		logs.Error("GetSessionData failed, error: %s", err)
 		return nil
@@ -203,19 +250,37 @@ func (c *ApiController) GetSessionData() *SessionData {
 
 // SetSessionData ...
 func (c *ApiController) SetSessionData(s *SessionData) {
+	if c.Ctx.Input.CruSession == nil {
+		return
+	}
 	if s == nil {
-		c.DelSession("SessionData")
+		err := c.Ctx.Input.CruSession.Delete(c.Ctx.Request.Context(), "SessionData")
+		if err != nil {
+			logs.Error("SetSessionData delete failed: %s", err)
+		}
 		return
 	}
 
-	c.SetSession("SessionData", util.StructToJson(s))
+	err := c.Ctx.Input.CruSession.Set(c.Ctx.Request.Context(), "SessionData", util.StructToJson(s))
+	if err != nil {
+		logs.Error("SetSessionData failed: %s", err)
+	}
 }
 
 func (c *ApiController) setMfaUserSession(userId string) {
-	c.SetSession(object.MfaSessionUserId, userId)
+	if c.Ctx.Input.CruSession == nil {
+		return
+	}
+	err := c.Ctx.Input.CruSession.Set(c.Ctx.Request.Context(), object.MfaSessionUserId, userId)
+	if err != nil {
+		logs.Error("setMfaUserSession failed: %s", err)
+	}
 }
 
 func (c *ApiController) getMfaUserSession() string {
+	if c.Ctx.Input.CruSession == nil {
+		return ""
+	}
 	userId := c.Ctx.Input.CruSession.Get(c.Ctx.Request.Context(), object.MfaSessionUserId)
 	if userId == nil {
 		return ""
@@ -250,6 +315,11 @@ func wrapErrorResponse(err error) *Response {
 }
 
 func (c *ApiController) Finish() {
+	// Release session to ensure session data is saved and cookies are set
+	if c.Ctx.Input.CruSession != nil {
+		c.Ctx.Input.CruSession.SessionRelease(c.Ctx.Request.Context(), c.Ctx.ResponseWriter)
+	}
+
 	if strings.HasPrefix(c.Ctx.Input.URL(), "/api") {
 		startTime := c.Ctx.Input.GetData("startTime")
 		if startTime != nil {
@@ -257,5 +327,6 @@ func (c *ApiController) Finish() {
 			object.ApiLatency.WithLabelValues(c.Ctx.Input.URL(), c.Ctx.Input.Method()).Observe(float64(latency))
 		}
 	}
+
 	c.Controller.Finish()
 }

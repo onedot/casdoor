@@ -20,10 +20,10 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/casdoor/casdoor/object"
-
+	"github.com/beego/beego/v2/core/logs"
 	"github.com/beego/beego/v2/server/web/context"
 	"github.com/casdoor/casdoor/authz"
+	"github.com/casdoor/casdoor/object"
 	"github.com/casdoor/casdoor/util"
 )
 
@@ -37,11 +37,24 @@ type Object struct {
 func getUsername(ctx *context.Context) (username string) {
 	defer func() {
 		if r := recover(); r != nil {
+			logs.Error("getUsername panic: %v", r)
 			username, _ = getUsernameByClientIdSecret(ctx)
 		}
 	}()
 
-	username = ctx.Input.Session("username").(string)
+	// Use beego v2 session API
+	if ctx.Input.CruSession != nil {
+		usernameInterface := ctx.Input.CruSession.Get(ctx.Request.Context(), "username")
+		if usernameInterface != nil {
+			if usernameStr, ok := usernameInterface.(string); ok {
+				username = usernameStr
+			} else {
+				logs.Warn("getUsername: username is not string, type=%T", usernameInterface)
+			}
+		}
+	} else {
+		logs.Warn("getUsername: CruSession is nil")
+	}
 
 	if username == "" {
 		username, _ = getUsernameByClientIdSecret(ctx)
