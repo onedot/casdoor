@@ -16,7 +16,6 @@ package controllers
 
 import (
 	"bytes"
-	"fmt"
 	"io"
 
 	"github.com/casdoor/casdoor/form"
@@ -127,11 +126,13 @@ func (c *ApiController) WebAuthnSigninBegin() {
 	}
 
 	if user == nil {
-		c.ResponseError(fmt.Sprintf(c.T("general:The user: %s doesn't exist"), util.GetId(userOwner, userName)))
+		// 统一返回"用户名或密码错误"，避免泄露用户是否存在的信息
+		c.ResponseError(c.T("check:password or code is incorrect"))
 		return
 	}
 	if len(user.WebauthnCredentials) == 0 {
-		c.ResponseError(c.T("webauthn:Found no credentials for this user"))
+		// 统一返回"用户名或密码错误"，避免泄露用户是否存在/是否已绑定 WebAuthn 凭据的信息
+		c.ResponseError(c.T("check:password or code is incorrect"))
 		return
 	}
 
