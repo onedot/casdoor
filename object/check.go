@@ -341,7 +341,8 @@ func CheckUserPassword(organization string, username string, password string, la
 	}
 
 	if user == nil || user.IsDeleted {
-		return nil, fmt.Errorf(i18n.Translate(lang, "general:The user: %s doesn't exist"), util.GetId(organization, username))
+		// 统一返回"用户名或密码错误"，避免泄露用户是否存在的信息
+		return nil, fmt.Errorf("%s", i18n.Translate(lang, "check:password or code is incorrect"))
 	}
 
 	if user.IsForbidden {
@@ -350,7 +351,8 @@ func CheckUserPassword(organization string, username string, password string, la
 
 	if isSigninViaLdap {
 		if user.Ldap == "" {
-			return nil, fmt.Errorf(i18n.Translate(lang, "check:The user: %s doesn't exist in LDAP server"), username)
+			// 统一返回"用户名或密码错误"，避免泄露用户是否存在的信息
+			return nil, fmt.Errorf("%s", i18n.Translate(lang, "check:password or code is incorrect"))
 		}
 	}
 
@@ -371,7 +373,8 @@ func CheckUserPassword(organization string, username string, password string, la
 		err = checkLdapUserPassword(user, password, lang)
 		if err != nil {
 			if err.Error() == "user not exist" {
-				return nil, fmt.Errorf(i18n.Translate(lang, "check:The user: %s doesn't exist in LDAP server"), username)
+				// 统一返回"用户名或密码错误"，避免泄露用户是否存在的信息
+				return nil, fmt.Errorf("%s", i18n.Translate(lang, "check:password or code is incorrect"))
 			}
 
 			return nil, recordSigninErrorInfo(user, lang, enableCaptcha)

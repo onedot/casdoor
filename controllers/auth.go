@@ -350,7 +350,8 @@ func (c *ApiController) Login() {
 				c.ResponseError(err.Error(), nil)
 				return
 			} else if user == nil {
-				c.ResponseError(fmt.Sprintf(c.T("general:The user: %s doesn't exist"), util.GetId(authForm.Organization, authForm.Username)))
+				// 统一返回"用户名或密码错误"，避免泄露用户是否存在的信息
+				c.ResponseError(c.T("check:password or code is incorrect"))
 				return
 			}
 
@@ -381,7 +382,8 @@ func (c *ApiController) Login() {
 				c.ResponseError(err.Error(), nil)
 				return
 			} else if user == nil {
-				c.ResponseError(fmt.Sprintf(c.T("general:The user: %s doesn't exist"), util.GetId(authForm.Organization, authForm.Username)))
+				// 统一返回"用户名或密码错误"，避免泄露用户是否存在的信息
+				c.ResponseError(c.T("check:password or code is incorrect"))
 				return
 			}
 
